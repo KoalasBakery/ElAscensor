@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalInput;
     private bool isGrounded;
-    private bool canMove = true; // Esto para bloquear movimiento en diálogos/UI
+    private bool canMove = true; // Esto para bloquear movimiento en dialogos/UI
 
     void Awake()
     {
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
             Move();
     }
 
-    // --- INPUT InputManager) --- //
+    // --- INPUT (InputManager) --- //
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         if (animator == null) return;
 
-        if (animator.runtimeAnimatorController == null) return;// por que aun no tengo animaciones
+        if (animator.runtimeAnimatorController == null) return;// por que aun no tengo animaciones y me caga la advertencia esa
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
         animator.SetBool("IsGrounded", isGrounded);

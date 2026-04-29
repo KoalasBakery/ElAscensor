@@ -47,7 +47,7 @@ public class InteractionDetector : MonoBehaviour
         }
     }
 
-    // Lo llamará el InputManager cuando se presione E
+    // Lo llamara el InputManager cuando se presione E
     public void TryInteract()
     {
         if (currentInteractable != null && currentInteractable.canInteract)

@@ -43,11 +43,11 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(true);
         continueIndicator.SetActive(false);
 
-        // Bloqueamos el movimiento del jugador
+        // Bloqueo el movimiento del jugador
         PlayerController player = FindAnyObjectByType<PlayerController>();
         player?.SetMovementEnabled(false);
 
-        // Cambiamos el esquema de input a UI
+        // Cambio el esquema de input a UI
         InputManager.Instance.SwitchToUI();
 
         ShowLine();
@@ -55,7 +55,7 @@ public class DialogueManager : MonoBehaviour
 
     public void OnContinue()
     {
-        // Si está escribiendo, se completa el texto de golpe
+        // Si esta escribiendo, se completa el texto de golpe
         if (isTyping)
         {
             StopAllCoroutines();
@@ -85,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         speakerNameText.text = line.speakerName;
         continueIndicator.SetActive(false);
 
-        // Portrait
+        // Portrait PERSONAA tururur
         if (line.speakerPortrait != null)
         {
             speakerPortrait.sprite = line.speakerPortrait;

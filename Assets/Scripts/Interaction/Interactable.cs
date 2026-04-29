@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     [Header("Interaction Settings")]
-    public string interactionPrompt = "Presiona E para interactuar"; // Texto a aparecer en pantalla (temporal)
+    public string interactionPrompt = "Presiona E para interactuar naco"; // Texto a aparecer en pantalla (temporal)
     public bool canInteract = true;
 
     // Cada objeto usa esto a su manera (sobreescribir)

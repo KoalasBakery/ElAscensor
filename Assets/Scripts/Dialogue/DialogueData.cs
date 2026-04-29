@@ -9,7 +9,7 @@ public class DialogueData : ScriptableObject
         public string speakerName;
         [TextArea(2, 5)]
         public string text;
-        public Sprite speakerPortrait; // Para después, el retrato del personaje si es que lo piden
+        public Sprite speakerPortrait; // Para despues, el retrato del personaje si es que lo piden
     }
 
     public DialogueLine[] lines;
