@@ -61,14 +61,23 @@ public class InputManager : MonoBehaviour
         interactionDetector?.TryInteract();
     }
 
-    // --- CAMBIO DE ESQUEMAS --- //
+    // --- CAMBIO DE ESQUEMAS DE CONTROLES --- //
     public void SwitchToGameplay()
     {
+        inputActions.Gameplay.Interact.performed -= OnUIConfirm;
         inputActions.Gameplay.Enable();
     }
 
     public void SwitchToUI()
     {
         inputActions.Gameplay.Disable();
+        inputActions.Gameplay.Interact.performed += OnUIConfirm;
+        inputActions.Gameplay.Interact.Enable();
+    }
+
+    private void OnUIConfirm(InputAction.CallbackContext context)
+    {
+        if (DialogueManager.Instance.IsDialogueActive)
+            DialogueManager.Instance.OnContinue();
     }
 }
