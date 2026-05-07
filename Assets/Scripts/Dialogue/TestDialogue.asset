@@ -13,6 +13,31 @@ MonoBehaviour:
   m_Name: TestDialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
-  - speakerName: Avocado
-    text: Y esta pinche farola que?
-    speakerPortrait: {fileID: 0}
+  - speakerNameKey: 
+    dialogueTextKey: NPC.Linea01
+    speakerPortrait: {fileID: 21300000, guid: 818e3989ff32b604fb391472a839a4cb, type: 3}
+    hasChoices: 0
+    choices: []
+    setFlagKey: 
+    setFlagValue: 0
+    nextDialogue: {fileID: 0}
+  - speakerNameKey: NPC.Nombre
+    dialogueTextKey: NPC.Linea02
+    speakerPortrait: {fileID: 21300000, guid: 818e3989ff32b604fb391472a839a4cb, type: 3}
+    hasChoices: 1
+    choices:
+    - choiceTextKey: Choice.Yes
+      nextDialogue: {fileID: 11400000, guid: 1d20be5b29160f6419982e627e548e70, type: 2}
+      requiredFlagKey: 
+      setFlagKey: 
+      setFlagValue: 0
+    - choiceTextKey: Choice.No
+      nextDialogue: {fileID: 11400000, guid: 158cb5f8bdb6d9a49ba0c9ce20535a84, type: 2}
+      requiredFlagKey: 
+      setFlagKey: 
+      setFlagValue: 0
+    setFlagKey: 
+    setFlagValue: 0
+    nextDialogue: {fileID: 0}
+  isRepeatable: 0
+  completedFlagKey: TestDialogue.Completado

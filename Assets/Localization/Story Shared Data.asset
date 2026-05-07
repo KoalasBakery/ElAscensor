@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Story Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Story
+  m_TableCollectionNameGuidString: 66b1bc747f601734285162daa8808bda
+  m_Entries:
+  - m_Id: 8911156985856
+    m_Key: NPC.Nombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9006627733504
+    m_Key: NPC.Linea01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9161259139072
+    m_Key: NPC.Linea02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9412049158144
+    m_Key: Choice.Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9688650924032
+    m_Key: Choice.No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20566129557504
+    m_Key: CHARA.Prone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36440391598080
+    m_Key: Answer.Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37237657485312
+    m_Key: Answer.No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2495416652107776
+    m_Key: NPC.Repeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2502933411106816
+    m_Key: Cuadro.Inspeccion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507215170539520
+    m_Key: Baul.Abierto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507341171625984
+    m_Key: Baul.Vacio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510965482295296
+    m_Key: Evan.TieneElDisco
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510969886314496
+    m_Key: Evan.Quedatelo
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2638082015528485157
+  references:
+    version: 2
+    RefIds:
+    - rid: 2638082015528485157
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1777506025027

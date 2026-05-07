@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Story_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 66b1bc747f601734285162daa8808bda, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 8911156985856
+    m_Localized: Evan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9006627733504
+    m_Localized: Hello my fella!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9161259139072
+    m_Localized: How are you today?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9412049158144
+    m_Localized: "I\xB4m gonna kill you"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9688650924032
+    m_Localized: "i don\xB4t even know that they play asshole"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20566129557504
+    m_Localized: Prone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36440391598080
+    m_Localized: yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37237657485312
+    m_Localized: no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2495416652107776
+    m_Localized: fuck off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2502933411106816
+    m_Localized: It's an old painting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507215170539520
+    m_Localized: I found a mysterious disc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507341171625984
+    m_Localized: The chest is empty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510965482295296
+    m_Localized: Oh thanks for finding my disc!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510969886314496
+    m_Localized: You can keep it, it's yours
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
