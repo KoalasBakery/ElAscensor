@@ -10,18 +10,25 @@ using UnityEngine.UI;
 
 public class AudioSettingsManager : MonoBehaviour
 {
+    #region Parameters
     [SerializeField] int defaultVolume = 10;
     [SerializeField] GameObject volumeSliderPrefab;
     [SerializeField] Transform slidersHolder;
     [SerializeField] AudioMixer audioMixer;
+    const string vol = "Volume";
     [SerializeField] AudioData sliderAudioData;
     [SerializeField] AudioData testAudioData;
-    const string vol = "Volume";
+
+    #endregion
+
+
+    #region MonoBehaviour Methods
     private void Start()
     {
         SetAudioMixer();
         InvokeRepeating(nameof(TestSfx), 2, 3);
         Invoke(nameof(TestMusic), 2);
+
     }
     void TestSfx()
     {
@@ -31,12 +38,15 @@ public class AudioSettingsManager : MonoBehaviour
     {
         AudioManager.instance.Play(sliderAudioData);
     }
+
+    #endregion
+
+
+    #region Audio Settings Methods
     void SetAudioMixer()
     {
         foreach (var channel in audioMixer.FindMatchingGroups("Master"))
-        {
             CreateSlider(channel.name);
-        }
     }
 
     void CreateSlider(string _channelName)
@@ -73,4 +83,5 @@ public class AudioSettingsManager : MonoBehaviour
         audioMixer.SetFloat(_channelName, _value < 1 ? -80 : Mathf.Log10(_value / 10f) * 20);
         PlayerPrefs.SetInt(_channelName + vol, _value);
     }
+    #endregion
 }
