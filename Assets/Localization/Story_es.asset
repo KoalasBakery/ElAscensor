@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Story_es
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 66b1bc747f601734285162daa8808bda, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 8911156985856
+    m_Localized: Evan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9006627733504
+    m_Localized: Hola gay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9161259139072
+    m_Localized: si fuiste a ver el partido del Ameica?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9412049158144
+    m_Localized: neta te voy a matar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9688650924032
+    m_Localized: 'ni siquiera sabia que jugaban '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20566129557504
+    m_Localized: Prone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36440391598080
+    m_Localized: Lo estaba viendo pero paso tu puta vagina alargada y me lo tapo
+      pendejo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37237657485312
+    m_Localized: Ni sabia que jugaban pendejo de cagada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2495416652107776
+    m_Localized: Bueno ya vete no?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2502933411106816
+    m_Localized: Que verga es esto?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507215170539520
+    m_Localized: "\xA1Encontr\xE9 un disco de Caifanes!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2507341171625984
+    m_Localized: "El ba\xFAl est\xE1 vac\xEDo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510965482295296
+    m_Localized: "\xA1Oh gracias por encontrar mi disco! Tenia muchas ganas de escuchar
+      Caifanes"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2510969886314496
+    m_Localized: a, mi disco, quedatelo, sirve que aprendes de buena musica.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

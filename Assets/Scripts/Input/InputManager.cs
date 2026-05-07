@@ -4,10 +4,10 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
-
     private PlayerInputActions inputActions;
     private PlayerController playerController;
     private InteractionDetector interactionDetector;
+    private InventoryUI inventoryUI;
 
     private void Awake()
     {
@@ -18,10 +18,10 @@ public class InputManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         inputActions = new PlayerInputActions();
         playerController = FindAnyObjectByType<PlayerController>();
         interactionDetector = FindAnyObjectByType<InteractionDetector>();
+
     }
 
     private void OnEnable()
@@ -32,6 +32,7 @@ public class InputManager : MonoBehaviour
         inputActions.Gameplay.Move.canceled += OnMove;
         inputActions.Gameplay.Jump.performed += OnJump;
         inputActions.Gameplay.Interact.performed += OnInteract;
+        inputActions.Gameplay.Inventory.performed += OnInventory;
     }
 
     private void OnDisable()
@@ -40,7 +41,7 @@ public class InputManager : MonoBehaviour
         inputActions.Gameplay.Move.canceled -= OnMove;
         inputActions.Gameplay.Jump.performed -= OnJump;
         inputActions.Gameplay.Interact.performed -= OnInteract;
-
+        inputActions.Gameplay.Inventory.performed -= OnInventory;
         inputActions.Gameplay.Disable();
     }
 
@@ -61,18 +62,35 @@ public class InputManager : MonoBehaviour
         interactionDetector?.TryInteract();
     }
 
-    // --- CAMBIO DE ESQUEMAS DE CONTROLES --- //
-    public void SwitchToGameplay()
+    private void OnInventory(InputAction.CallbackContext context)
     {
-        inputActions.Gameplay.Interact.performed -= OnUIConfirm;
-        inputActions.Gameplay.Enable();
+        if (inventoryUI == null)
+            inventoryUI = FindAnyObjectByType<InventoryUI>();
+
+        inventoryUI?.ToggleInventory();
     }
 
+    // --- CAMBIO DE ESQUEMAS DE CONTROLES --- //
     public void SwitchToUI()
     {
-        inputActions.Gameplay.Disable();
+        // Solo desactivamos movimiento y salto
+        inputActions.Gameplay.Move.Disable();
+        inputActions.Gameplay.Jump.Disable();
+
+        // Interact pasa a confirmar dialogo
+        inputActions.Gameplay.Interact.performed -= OnInteract;
         inputActions.Gameplay.Interact.performed += OnUIConfirm;
-        inputActions.Gameplay.Interact.Enable();
+    }
+
+    public void SwitchToGameplay()
+    {
+        // Reactivamos movimiento y salto
+        inputActions.Gameplay.Move.Enable();
+        inputActions.Gameplay.Jump.Enable();
+
+        // Interact regresa a interactuar
+        inputActions.Gameplay.Interact.performed -= OnUIConfirm;
+        inputActions.Gameplay.Interact.performed += OnInteract;
     }
 
     private void OnUIConfirm(InputAction.CallbackContext context)
