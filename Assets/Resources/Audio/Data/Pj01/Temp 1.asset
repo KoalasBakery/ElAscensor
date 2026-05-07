@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Temp 1
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
   <clips>k__BackingField:
-  - clip: {fileID: 8300000, guid: 2043b744e233efe44a5c3ca83890251c, type: 3}
+  - clip: {fileID: 8300000, guid: 245089c1bcd7a93488588f0859d0b246, type: 3}
     volume: 1
   <mixerGroup>k__BackingField: {fileID: -5491327017076670561, guid: 96a8e8964d478ac4b99d161ec06465c4, type: 2}
   <pitchMin>k__BackingField: 0.9

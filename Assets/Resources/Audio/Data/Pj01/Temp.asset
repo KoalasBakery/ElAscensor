@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640fae0cbc5d5a4449cbc86951c5b4e0, type: 3}
   m_Name: Temp
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
-  pitchMin: 0.9
-  pitchMax: 1.1
-  mixerGroup: {fileID: 0}
-  loop: 0
+  <clips>k__BackingField:
+  - clip: {fileID: 8300000, guid: 1a4cf81504a12e549b12145c65135a1a, type: 3}
+    volume: 0.1
+  <mixerGroup>k__BackingField: {fileID: 4322859051865255135, guid: 96a8e8964d478ac4b99d161ec06465c4, type: 2}
+  <pitchMin>k__BackingField: 1
+  <pitchMax>k__BackingField: 1
+  <loop>k__BackingField: 1
+  <priority>k__BackingField: 150
+  <spatialBlend>k__BackingField: 0
+  <reverbZoneMix>k__BackingField: 0
+  <dopplerLevel>k__BackingField: 0
+  <spread>k__BackingField: 0
+  <rolloffMode>k__BackingField: 0
+  <minDistance>k__BackingField: 1
+  <maxDistance>k__BackingField: 500

@@ -11,6 +11,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField, Range(1,25), Tooltip("Cantidad de AudioSources que se agregaran a la escena al inciar")] int initialPoolSize = 10;
     Queue<AudioSource> audioSourcesPool= new Queue<AudioSource>();
     #endregion
+
+
+    #region MonoBehaviour Methods
     private void Awake()
     {
         if (instance == null)
@@ -25,6 +28,7 @@ public class AudioManager : MonoBehaviour
         }
         InitPool();
     }
+    #endregion
 
 
     #region Pool Methods
@@ -52,7 +56,6 @@ public class AudioManager : MonoBehaviour
         AudioSource source = audioSourcesPool.Count > 0 ? audioSourcesPool.Dequeue() : CreacteAudioSource();
         source.gameObject.SetActive(true);
         ClipWithVolume clip = _audioData.GetRandomClip;
-        Debug.Log(_audioData.clips.Length);
         source.clip = clip.clip;
         source.volume = clip.volume;
         source.outputAudioMixerGroup = _audioData.mixerGroup;
