@@ -155,7 +155,16 @@ public class DialogueManager : MonoBehaviour
             dialogueText = textOp.Result;
         }
 
-        dialogueUI.ShowLine(speakerName, dialogueText, line.speakerPortrait);
+        dialogueUI.ShowLine(
+            speakerName,
+            dialogueText,
+            line.speakerPortrait,
+            line.customFont,
+            line.textColor == Color.white ? (Color?)null : line.textColor,
+            line.fontSize,
+            line.textEffect,
+            line.customTypingSpeed
+        );
 
         if (line.hasChoices && line.choices != null && line.choices.Count > 0)
             ShowChoices(line.choices);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /*
@@ -79,8 +80,32 @@ using UnityEngine;
 public class DialogueData : ScriptableObject
 {
     [System.Serializable]
+    public enum TextEffect
+    {
+        None,
+        Wave,
+        Shake,
+        FadeIn
+    }
+    [System.Serializable]
     public class DialogueLine
     {
+        [Header("Estilo")]
+        [Tooltip("Tipografía personalizada para esta línea. Vacío = tipografía por defecto")]
+        public TMP_FontAsset customFont;
+
+        [Tooltip("Color del texto. Blanco = color por defecto")]
+        public Color textColor = Color.white;
+
+        [Tooltip("Tamaño del texto. 0 = tamaño por defecto")]
+        public float fontSize = 0;
+
+        [Tooltip("Efecto de texto para esta línea")]
+        public TextEffect textEffect = TextEffect.None;
+
+        [Tooltip("Velocidad del typewriter. 0 = velocidad por defecto")]
+        public float customTypingSpeed = 0;
+
         [Header("Localization")]
         public string speakerNameKey;      
         public string dialogueTextKey;     

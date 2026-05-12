@@ -732,6 +732,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b402abd8913754ba4fe18b4e633fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueUI
+  defaultFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  defaultFontSize: 20
+  defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
   dialoguePanel: {fileID: 1923936994}
   speakerNameText: {fileID: 777901111}
   dialogueText: {fileID: 711511866}
@@ -751,6 +754,7 @@ GameObject:
   - component: {fileID: 711511865}
   - component: {fileID: 711511867}
   - component: {fileID: 711511866}
+  - component: {fileID: 711511868}
   m_Layer: 5
   m_Name: DialogueText
   m_TagString: Untagged
@@ -877,6 +881,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711511864}
   m_CullTransparentMesh: 1
+--- !u!114 &711511868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711511864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9224a94bf97164e97829c3bacc8578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTextEffects
 --- !u!1 &748448807
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,14 +926,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractableEntity
   interactionPrompt: Presiona E para interactuar naco
   canInteract: 1
-  entityName: 
-  useEntityNameAsSpeaker: 1
-  defaultDialogue: {fileID: 11400000, guid: 06657a0b85682184faa5ae1b30e41d38, type: 2}
-  repeatingDialogue: {fileID: 0}
+  dialogueContainer: {fileID: 11400000, guid: 8b1cf658fb70f9945802f81fceaf4e52, type: 2}
   conditionalDialogues: []
   itemToGive: {fileID: 0}
   setFlagKey: 
   setFlagValue: 1
+  entityName: 
+  useEntityNameAsSpeaker: 1
   isOneTimeInteraction: 0
 --- !u!61 &748448809
 BoxCollider2D:
@@ -2267,14 +2282,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractableEntity
   interactionPrompt: Presiona E para interactuar naco
   canInteract: 1
-  entityName: 
-  useEntityNameAsSpeaker: 1
-  defaultDialogue: {fileID: 11400000, guid: a02ff65a7e5441d47b72e6af0d0975c1, type: 2}
-  repeatingDialogue: {fileID: 11400000, guid: aca54b45b093e9d488a811466fb1c938, type: 2}
+  dialogueContainer: {fileID: 11400000, guid: 85d4ae2ccc6c54846b9e078084325a0d, type: 2}
   conditionalDialogues: []
   itemToGive: {fileID: 11400000, guid: 80eece44facd027458491564c9aa4be5, type: 2}
   setFlagKey: 
   setFlagValue: 1
+  entityName: 
+  useEntityNameAsSpeaker: 1
   isOneTimeInteraction: 1
 --- !u!61 &1752393042
 BoxCollider2D:
@@ -2809,21 +2823,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractableEntity
   interactionPrompt: Presiona E para interactuar naco
   canInteract: 1
-  entityName: Evan
-  useEntityNameAsSpeaker: 1
-  defaultDialogue: {fileID: 11400000, guid: 7e2cd403c5ca90f448101d33887b19f6, type: 2}
-  repeatingDialogue: {fileID: 11400000, guid: 2afe57dafc1dd4a4083deadbebf05fa3, type: 2}
+  dialogueContainer: {fileID: 11400000, guid: 290faa4bdded55143a2a283b310ee248, type: 2}
   conditionalDialogues:
   - requiredFlagKey: 
     requiredItem: {fileID: 11400000, guid: 80eece44facd027458491564c9aa4be5, type: 2}
-    dialogue: {fileID: 11400000, guid: 9a88d6e849533aa46b1a30891bc0bd3e, type: 2}
+    dialogueName: Evan_TieneElDisco
     itemToGive: {fileID: 0}
+    removeRequiredItem: 1
     setFlagKey: 
     setFlagValue: 0
-    removeRequiredItem: 0
   itemToGive: {fileID: 0}
   setFlagKey: 
   setFlagValue: 1
+  entityName: Evan
+  useEntityNameAsSpeaker: 1
   isOneTimeInteraction: 1
 --- !u!1 &2013712698
 GameObject:

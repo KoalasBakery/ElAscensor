@@ -1,68 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using static DialogueData;
 
 /*
  * ---------------------------------------------------------------
  *                        DIALOGUE UI
  * ---------------------------------------------------------------
- * 
  * DESCRIPCION:
  * Maneja toda la parte visual del sistema de dialogos.
  * Separado del DialogueManager para respetar el principio
  * de responsabilidad unica (cada script hace una sola cosa).
- * 
- * RESPONSABILIDADES:
- *   - Mostrar/ocultar el panel de dialogo
- *   - Efecto typewriter (texto letra por letra)
- *   - Mostrar nombre y portrait del speaker
- *   - Crear y destruir botones de choices dinamicamente
- *   - Exponer estados (IsTyping, IsShowingChoices) al Manager
- * 
- * METODOS PUBLICOS:
- * 
- *   Show()
- *   -> Activa el panel de dialogo
- * 
- *   Hide()
- *   -> Desactiva el panel y limpia choices
- * 
- *   ShowLine(speakerName, text, portrait)
- *   -> Muestra una linea con efecto typewriter
- *   -> Si portrait es null, oculta la imagen del speaker
- * 
- *   SkipTypewriter()
- *   -> Completa el texto de golpe si esta escribiendo
- * 
- *   ShowChoices(textos, callback)
- *   -> Crea botones dinámicamente para cada opción
- *   -> Al clickear un boton llama al callback con el indice elegido
- * 
- *   HideChoices()
- *   -> Destruye todos los botones y oculta el panel de choices
- * 
- * PROPIEDADES:
- *   IsTyping          -> true mientras el typewriter esta escribiendo
- *   IsShowingChoices  -> true mientras hay choices visibles
- * 
+ *
  * SETUP EN UNITY:
  *   Este script va en el Canvas (siempre activo).
  *   El DialoguePanel empieza DESACTIVADO en la Hierarchy.
  *   Asignar en el Inspector:
- *     · Dialogue Panel    -> DialoguePanel
- *     · Speaker Name Text -> SpeakerName (TMP)
- *     · Dialogue Text     -> DialogueText (TMP)
- *     · Speaker Portrait  -> SpeakerPortrait (Image)
- *     · Continue Indicator -> ContinueIndicator (">>" o flecha)
- *     · Choices Panel     -> ChoicesPanel
+ *     · Dialogue Panel     -> DialoguePanel
+ *     · Speaker Name Text  -> SpeakerName (TMP)
+ *     · Dialogue Text      -> DialogueText (TMP)
+ *     · Speaker Portrait   -> SpeakerPortrait (Image)
+ *     · Continue Indicator -> ContinueIndicator
+ *     · Choices Panel      -> ChoicesPanel
  *     · Choice Button Prefab -> Prefab con Button + TMP
- * 
- * DEPENDENCIAS:
- *   - TextMeshPro     (textos)
- *   - UnityEngine.UI  (botones e imagenes)
  * ---------------------------------------------------------------
  */
 
@@ -82,12 +45,21 @@ public class DialogueUI : MonoBehaviour
     [Header("Typewriter")]
     [SerializeField] private float typingSpeed = 0.05f;
 
+    private DialogueTextEffects textEffects;
     private string fullText;
     private Coroutine typingCoroutine;
     private List<GameObject> activeChoiceButtons = new List<GameObject>();
+    private TextEffect currentEffect = TextEffect.None;
 
     public bool IsTyping { get; private set; }
     public bool IsShowingChoices { get; private set; }
+
+    private void Awake()
+    {
+        textEffects = dialogueText.GetComponent<DialogueTextEffects>();
+        if (textEffects == null)
+            textEffects = dialogueText.gameObject.AddComponent<DialogueTextEffects>();
+    }
 
     // --- SHOW / HIDE --- //
     public void Show()
@@ -105,15 +77,32 @@ public class DialogueUI : MonoBehaviour
     }
 
     // --- MOSTRAR LINEA --- //
-    public void ShowLine(string speakerName, string text, Sprite portrait)
+    public void ShowLine(string speakerName, string text, Sprite portrait,
+                         TMP_FontAsset customFont = null,
+                         Color? textColor = null,
+                         float fontSize = 0,
+                         TextEffect effect = TextEffect.None,
+                         float customTypingSpeed = 0)
     {
-        // Limpiar choices anteriores
+        currentEffect = effect;
         ClearChoices();
         IsShowingChoices = false;
         continueIndicator.SetActive(false);
 
-        // Nombre
+        // Nombre del speaker
         speakerNameText.text = speakerName;
+
+        // Fuente — solo cambiar si hay una personalizada
+        if (customFont != null)
+            dialogueText.font = customFont;
+
+        // Tamaño — solo cambiar si hay uno personalizado
+        if (fontSize > 0)
+            dialogueText.fontSize = fontSize;
+
+        // Solo aplicar color si tiene alpha mayor a 0
+        if (textColor.HasValue && textColor.Value.a > 0)
+            dialogueText.color = textColor.Value;
 
         // Portrait
         if (portrait != null)
@@ -126,23 +115,31 @@ public class DialogueUI : MonoBehaviour
             speakerPortrait.gameObject.SetActive(false);
         }
 
+        // Detener efecto anterior
+        textEffects?.StopCurrentEffect();
+
         // Typewriter
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
+        float speed = customTypingSpeed > 0 ? customTypingSpeed : typingSpeed;
         fullText = text;
-        typingCoroutine = StartCoroutine(TypewriterEffect(text));
+        typingCoroutine = StartCoroutine(TypewriterEffect(text, speed, effect));
     }
 
-    private IEnumerator TypewriterEffect(string text)
+    private IEnumerator TypewriterEffect(string text, float speed, TextEffect effect)
     {
         IsTyping = true;
         dialogueText.text = "";
 
+        // Iniciar efecto ANTES del typewriter
+        if (effect != TextEffect.None)
+            textEffects?.PlayEffect(effect);
+
         foreach (char c in text)
         {
             dialogueText.text += c;
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSeconds(speed);
         }
 
         IsTyping = false;
@@ -157,6 +154,10 @@ public class DialogueUI : MonoBehaviour
         dialogueText.text = fullText;
         IsTyping = false;
         continueIndicator.SetActive(true);
+
+        // Mantener el efecto activo
+        if (currentEffect != TextEffect.None)
+            textEffects?.PlayEffect(currentEffect);
     }
 
     // --- CHOICES --- //
@@ -169,8 +170,9 @@ public class DialogueUI : MonoBehaviour
 
         for (int i = 0; i < choiceTexts.Count; i++)
         {
-            int index = i;
+            int capturedIndex = i;
             GameObject btn = Instantiate(choiceButtonPrefab, choicesPanel.transform);
+            activeChoiceButtons.Add(btn);
 
             TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
             if (btnText != null)
@@ -180,22 +182,14 @@ public class DialogueUI : MonoBehaviour
             if (button != null)
             {
                 button.onClick.RemoveAllListeners();
-                int capturedIndex = index; // 
-                button.onClick.AddListener(() =>
-                {
-                    Debug.Log("Choice clickeada: " + capturedIndex);
-                    onChoiceSelected(capturedIndex);
-                });
+                button.onClick.AddListener(() => onChoiceSelected(capturedIndex));
                 button.interactable = true;
             }
         }
 
-        // Seleccionar el primer boton para navegacion
+        // Seleccionar el primer boton
         if (activeChoiceButtons.Count > 0)
-        {
-            Button firstButton = activeChoiceButtons[0].GetComponent<Button>();
-            firstButton?.Select();
-        }
+            activeChoiceButtons[0].GetComponent<Button>()?.Select();
     }
 
     private void ClearChoices()
@@ -208,10 +202,8 @@ public class DialogueUI : MonoBehaviour
                 Destroy(btn);
             }
         }
-
         activeChoiceButtons.Clear();
 
-        // Destruir cualquier hijo que haya quedado 
         foreach (Transform child in choicesPanel.transform)
             Destroy(child.gameObject);
 

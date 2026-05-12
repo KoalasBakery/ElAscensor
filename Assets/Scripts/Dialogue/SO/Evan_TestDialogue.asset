@@ -10,11 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fa3eedf0f2f3a24aa85b286a78cbe09, type: 3}
-  m_Name: Evan_TieneElDisco
+  m_Name: Evan_TestDialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
-  - speakerNameKey: 
-    dialogueTextKey: Evan.TieneElDisco
+  - customFont: {fileID: 0}
+    textColor: {r: 0, g: 0, b: 0, a: 0}
+    fontSize: 0
+    textEffect: 0
+    customTypingSpeed: 0
+    speakerNameKey: 
+    dialogueTextKey: 
     speakerPortrait: {fileID: 0}
     hasChoices: 0
     choices: []
