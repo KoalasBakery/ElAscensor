@@ -1,15 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 /*
- * MonoBehaviour para controlar AudioSource en escena
+ * MonoBehaviour para controlar AudioSource en escena, toda la informacion 
+ * del AudioSource se setea a partir de un AudioData, si el AuidoData esta
+ * asociado a un AudioMixerGroup de musica, el AudioManager se encargara de 
+ * hacer una transicion suave entre la musica activa y la nueva musica a reproducir.
+ * Los AudioSoure que esten reproduciendo musica no se desactivaran al cargar otra escena
+ * ya que se establecen como hijo del AudioManager, lo que permite mantener la musica activa entre escenas.
  */
 public class AudioManager : MonoBehaviour
 {
     #region Parameters
     public static AudioManager instance;
     [SerializeField, Range(1,25), Tooltip("Cantidad de AudioSources que se agregaran a la escena al inciar")] int initialPoolSize = 10;
+
+    [Header("Music Transition")]
+    [SerializeField, Range(0.01f, 10), Tooltip("Velocidad de transicion entre la musica activa y la que se quiere activar")] float musicTransitionSpeed = 1;
+    [SerializeField, Tooltip("Grupo de musica del AuidoMixer")] AudioMixerGroup musicAudioGroup;
+    
     Queue<AudioSource> audioSourcesPool= new Queue<AudioSource>();
+    AudioSource currentMusicAudioSource;
     #endregion
 
 
@@ -28,6 +40,7 @@ public class AudioManager : MonoBehaviour
         }
         InitPool();
     }
+ 
     #endregion
 
 
@@ -45,6 +58,7 @@ public class AudioManager : MonoBehaviour
         AudioSource audioSource = audioSourceGameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSourceGameObject.SetActive(false);
+        audioSourceGameObject.transform.parent = transform;
         return audioSource;
     }
     #endregion
@@ -54,8 +68,10 @@ public class AudioManager : MonoBehaviour
     AudioSource PlayAudioSource(AudioData _audioData)
     {
         AudioSource source = audioSourcesPool.Count > 0 ? audioSourcesPool.Dequeue() : CreacteAudioSource();
-        source.gameObject.SetActive(true);
         ClipWithVolume clip = _audioData.GetRandomClip;
+        
+        source.gameObject.SetActive(true);
+
         source.clip = clip.clip;
         source.volume = clip.volume;
         source.outputAudioMixerGroup = _audioData.mixerGroup;
@@ -70,32 +86,68 @@ public class AudioManager : MonoBehaviour
         source.minDistance = _audioData.minDistance;
         source.maxDistance = _audioData.maxDistance;
 
-        source.Play();
+        if (source.outputAudioMixerGroup== musicAudioGroup)
+            StartCoroutine(TransitionMusicAudioSource(source));
+        else
+            source.Play();
+        
         if (!_audioData.loop)
             StartCoroutine(StopAudioSource(clip.clip.length / source.pitch, source));
 
         return source;
     }
-    IEnumerator StopAudioSource(float time, AudioSource source)
+    IEnumerator StopAudioSource(float _time, AudioSource _source)
     {
-        yield return Helpers.GetWait(time);
-        audioSourcesPool.Enqueue(source);
-        source.transform.parent = transform;
-        source.Stop();
-        source.clip = null;
-        source.gameObject.SetActive(false);
+        yield return Helpers.GetWait(_time);
+        StopAudioSource(_source);
+    }
+    void StopAudioSource(AudioSource _source)
+    {
+        audioSourcesPool.Enqueue(_source);
+        _source.transform.parent = transform;
+        _source.Stop();
+        _source.gameObject.SetActive(false);
+    }
+    IEnumerator TransitionMusicAudioSource(AudioSource _newMusicAudioSource)
+    {
+        if (currentMusicAudioSource!=null)
+        {
+            while (currentMusicAudioSource.volume > 0.01)
+            {
+                currentMusicAudioSource.volume= Mathf.Lerp(currentMusicAudioSource.volume, 0, Time.deltaTime * musicTransitionSpeed);
+                //currentMusicAudioSource.volume -= Time.deltaTime* musicTransitionSpeed;
+                yield return Helpers.GetWaitForEndOfFrame();
+            }
+            StopAudioSource(currentMusicAudioSource);
+            currentMusicAudioSource.volume = 0;
+        }
+
+        currentMusicAudioSource = _newMusicAudioSource;
+        currentMusicAudioSource.volume = 0;
+        currentMusicAudioSource.Play();
+
+
+        while (currentMusicAudioSource.volume < .99)
+        {
+            currentMusicAudioSource.volume=Mathf.Lerp(currentMusicAudioSource.volume, 1, Time.deltaTime * musicTransitionSpeed);
+           // currentMusicAudioSource.volume += Time.deltaTime * musicTransitionSpeed;
+            yield return Helpers.GetWaitForEndOfFrame();
+        }
+
+
+        currentMusicAudioSource.volume = 1;
     }
     #endregion
-    
-    
+
+
     #region Play Methods
+
     public void Play(AudioData _audioData, Transform _objectRef = null)
     {
         AudioSource source = PlayAudioSource(_audioData);
         if (_objectRef == null) return;
         source.transform.position= _objectRef.position;
         source.transform.parent= _objectRef;
-        
     }
     public void Play(AudioData _audioData, Vector3 _position = default)
     {

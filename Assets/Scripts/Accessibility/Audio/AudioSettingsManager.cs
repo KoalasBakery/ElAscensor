@@ -16,9 +16,6 @@ public class AudioSettingsManager : MonoBehaviour
     [SerializeField] Transform slidersHolder;
     [SerializeField] AudioMixer audioMixer;
     const string vol = "Volume";
-    [SerializeField] AudioData sliderAudioData;
-    [SerializeField] AudioData testAudioData;
-
     #endregion
 
 
@@ -26,18 +23,10 @@ public class AudioSettingsManager : MonoBehaviour
     private void Start()
     {
         SetAudioMixer();
-        InvokeRepeating(nameof(TestSfx), 2, 3);
-        Invoke(nameof(TestMusic), 2);
+
 
     }
-    void TestSfx()
-    {
-        AudioManager.instance.Play(testAudioData);
-    }
-    void TestMusic()
-    {
-        AudioManager.instance.Play(sliderAudioData);
-    }
+
 
     #endregion
 

@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/TestConfigurations.unity
+    guid: 81462a5b96550974d9efd05b55cb178f
+  - enabled: 1
+    path: Assets/Scenes/TestConfigurationMusic.unity
+    guid: 713922b6efd161844ace7b80d76e613e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f40a678e34cea4e419f3c029d4b8b867, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
