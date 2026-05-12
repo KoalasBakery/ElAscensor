@@ -23,8 +23,7 @@ public class AudioSettingsManager : MonoBehaviour
     private void Start()
     {
         SetAudioMixer();
-
-
+        gameObject.SetActive(false);
     }
 
 
@@ -64,13 +63,13 @@ public class AudioSettingsManager : MonoBehaviour
             SetVolumeInChannel(_channelName, (int)value);
             labelValue.text = ((int)value).ToString();
         });
-
     }
 
     void SetVolumeInChannel(string _channelName, int _value)
     {
         audioMixer.SetFloat(_channelName, _value < 1 ? -80 : Mathf.Log10(_value / 10f) * 20);
         PlayerPrefs.SetInt(_channelName + vol, _value);
+        PlayerPrefs.Save();
     }
     #endregion
 }

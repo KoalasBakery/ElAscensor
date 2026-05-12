@@ -15,7 +15,7 @@ public class LocalizationSettingsManager : MonoBehaviour
     [SerializeField] string localizationFolderPath = "Localization/";
     [SerializeField] GameObject languajeButtonPrefab;
     [SerializeField] Transform buttonsHolder;
-    Sprite[] flags;
+    Sprite[] sprites;
     #endregion
 
 
@@ -30,6 +30,9 @@ public class LocalizationSettingsManager : MonoBehaviour
 
         for (int i = 0; i < locales.Count; ++i)
              CreateLanguageButton(locales[i].Formatter.ToString(), i);
+
+
+        gameObject.SetActive(false);    
     }
     #endregion
 
@@ -38,7 +41,7 @@ public class LocalizationSettingsManager : MonoBehaviour
     [ContextMenu("Load Sprites")]
     void LoadLocalizationSprites()
     { 
-        flags= Resources.LoadAll<Sprite>(localizationFolderPath+"Sprites");
+        sprites= Resources.LoadAll<Sprite>(localizationFolderPath+"Sprites");
     }
 
     void CreateLanguageButton(string _languaje, int _idx)
@@ -47,11 +50,15 @@ public class LocalizationSettingsManager : MonoBehaviour
         Image buttonImage = languajeButtonObject.GetComponent<Image>();
         Button button = languajeButtonObject.GetComponent<Button>();
 
-        foreach (var flag in flags)
+        if (PlayerPrefs.HasKey("SelectedLocale"))
+            if (PlayerPrefs.GetString("SelectedLocale") == _languaje)
+                LocaleSelected(_idx);
+
+        foreach (var spr in sprites)
         {
-            if (flag.name != _languaje) continue;
+            if (spr.name != _languaje) continue;
             
-            buttonImage.sprite = flag;
+            buttonImage.sprite = spr;
             break;
         }
 
@@ -61,6 +68,8 @@ public class LocalizationSettingsManager : MonoBehaviour
     static void LocaleSelected(int index)
     {
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
+        PlayerPrefs.SetString("SelectedLocale", LocalizationSettings.SelectedLocale.Identifier.Code);
+        PlayerPrefs.Save();
     }
     #endregion
 }
