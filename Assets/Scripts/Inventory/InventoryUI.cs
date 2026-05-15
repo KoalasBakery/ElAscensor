@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,64 +6,144 @@ using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private GameObject inventoryPanel;
+    [Header("Inventario")]
+    [SerializeField] private RectTransform inventoryPanel;
     [SerializeField] private Transform itemsContainer;
     [SerializeField] private GameObject itemSlotPrefab;
 
+    [Header("Mision")]
+    [SerializeField] private RectTransform missionPanel;
+    [SerializeField] private TextMeshProUGUI missionText;
+
+    [Header("Inspeccion")]
+    [SerializeField] private ItemInspectUI itemInspectUI;
+
+    [Header("Animacion Inventario")]
+    [SerializeField] private float slideSpeed = 8f;
+    [SerializeField] private float hiddenY = 150f;
+    [SerializeField] private float visibleY = 0f;
+
+    [Header("Animacion Mision")]
+    [SerializeField] private float missionHiddenX = -420f;
+    [SerializeField] private float missionVisibleX = 10f;
+    //[SerializeField] private float missionDelay = 0.3f; // espera a que baje el inventario
+
     private bool isOpen = false;
+    private bool isAnimating = false;
+    private List<GameObject> activeSlots = new List<GameObject>();
 
     private void Start()
     {
-        inventoryPanel.SetActive(false);
+        inventoryPanel.anchoredPosition = new Vector2(0, hiddenY);
+
+        if (missionPanel != null)
+            missionPanel.anchoredPosition = new Vector2(missionHiddenX,
+                missionPanel.anchoredPosition.y);
+
         Inventory.Instance.onInventoryChanged.AddListener(RefreshUI);
+        RefreshUI();
     }
 
+    // --- TOGGLE --- //
     public void ToggleInventory()
     {
-        isOpen = !isOpen;
-        inventoryPanel.SetActive(isOpen);
+        if (isAnimating) return;
 
-        if (isOpen)
+        if (itemInspectUI != null && itemInspectUI.IsOpen)
         {
-            RefreshUI();
-            InputManager.Instance.SwitchToUI();
-            PlayerController player = FindAnyObjectByType<PlayerController>();
-            player?.SetMovementEnabled(false);
+            itemInspectUI.Hide();
+            return;
         }
-        else
-        {
-            InputManager.Instance.SwitchToGameplay();
-            PlayerController player = FindAnyObjectByType<PlayerController>();
-            player?.SetMovementEnabled(true);
-        }
+
+        isOpen = !isOpen;
+        StartCoroutine(AnimateInventory(isOpen));
     }
 
-    private void RefreshUI()
+    private IEnumerator AnimateInventory(bool open)
     {
-        // Se lImpian los slots anteriores
-        foreach (Transform child in itemsContainer)
-            Destroy(child.gameObject);
+        isAnimating = true;
 
-        // sE crea un slot por cada ítem
+        // Lanzar animacion de mision AL MISMO TIEMPO
+        if (missionPanel != null)
+            StartCoroutine(AnimateMission(open));
+
+        // Animar inventario (arriba/abajo)
+        float targetY = open ? visibleY : hiddenY;
+        float currentY = inventoryPanel.anchoredPosition.y;
+
+        while (Mathf.Abs(currentY - targetY) > 0.1f)
+        {
+            currentY = Mathf.Lerp(currentY, targetY, Time.deltaTime * slideSpeed);
+            inventoryPanel.anchoredPosition = new Vector2(0, currentY);
+            yield return null;
+        }
+
+        inventoryPanel.anchoredPosition = new Vector2(0, targetY);
+        isAnimating = false;
+    }
+
+    private IEnumerator AnimateMission(bool show)
+    {
+        float targetX = show ? missionVisibleX : missionHiddenX;
+        float currentX = missionPanel.anchoredPosition.x;
+        float currentY = missionPanel.anchoredPosition.y;
+
+        while (Mathf.Abs(currentX - targetX) > 0.1f)
+        {
+            currentX = Mathf.Lerp(currentX, targetX, Time.deltaTime * slideSpeed);
+            missionPanel.anchoredPosition = new Vector2(currentX, currentY);
+            yield return null;
+        }
+        missionPanel.anchoredPosition = new Vector2(targetX, currentY);
+    }
+
+    // --- REFRESH --- //
+    public void RefreshUI()
+    {
+        foreach (var slot in activeSlots)
+            Destroy(slot);
+        activeSlots.Clear();
+
         foreach (ItemData item in Inventory.Instance.GetItems())
         {
+            if (item.isNote) continue;
+
             GameObject slot = Instantiate(itemSlotPrefab, itemsContainer);
+            activeSlots.Add(slot);
 
-            // Icono
-            Image icon = slot.transform.Find("Icon").GetComponent<Image>();
-            if (icon != null && item.icon != null)
-                icon.sprite = item.icon;
+            Image icon = slot.transform.Find("Icon")?.GetComponent<Image>();
+            if (icon != null)
+            {
+                bool isCombined = Inventory.Instance.IsItemCombined(item);
+                icon.sprite = (isCombined && item.combinedIcon != null) ?
+                    item.combinedIcon : item.icon;
+            }
 
-            // Nombre
-            TextMeshProUGUI nameText = slot.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
-            if (nameText != null)
-                nameText.text = item.itemName;
-
-            // Descripcion
-            TextMeshProUGUI descText = slot.transform.Find("Description").GetComponent<TextMeshProUGUI>();
-            if (descText != null)
-                descText.text = item.description;
+            Button button = slot.GetComponent<Button>();
+            if (button != null)
+            {
+                ItemData capturedItem = item;
+                button.onClick.AddListener(() => OnItemClicked(capturedItem));
+            }
         }
     }
+
+    // --- CLICK EN ITEM --- //
+    private void OnItemClicked(ItemData item)
+    {
+        isOpen = false;
+        StartCoroutine(AnimateInventory(false));
+
+        if (itemInspectUI != null)
+            itemInspectUI.Show(item);
+    }
+
+    // --- MISION --- //
+    public void SetMissionText(string text)
+    {
+        if (missionText != null)
+            missionText.text = text;
+    }
+
+    public bool IsOpen => isOpen;
 }

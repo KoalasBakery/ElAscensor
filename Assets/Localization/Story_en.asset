@@ -74,6 +74,22 @@ MonoBehaviour:
     m_Localized: You can keep it, it's yours
     m_Metadata:
       m_Items: []
+  - m_Id: 5783205141385216
+    m_Localized: Talk to Evan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783365477044224
+    m_Localized: Talk to him
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783465532166144
+    m_Localized: Interact with Evan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5788311412903936
+    m_Localized: Dear diary, today I hate Nig...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

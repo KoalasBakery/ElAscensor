@@ -1,11 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*
+ * ---------------------------------------------------------------
+ *                     PLAYER CONTROLLER
+ * ---------------------------------------------------------------
+ * DESCRIPCION:
+ * Controla el movimiento del jugador.
+ * Soporta dos modos:
+ *   1. Movimiento por input (teclado/gamepad)
+ *   2. Movimiento por destino (point and click)
+ *
+ * DEPENDENCIAS:
+ *   - Rigidbody2D
+ *   - Animator (opcional)
+ *   - ClickInteraction (para point and click)
+ * ---------------------------------------------------------------
+ */
+
 public class PlayerController : MonoBehaviour
 {
+    [Header("Point and Click")]
+    [SerializeField] private float moveTimeout = 3f; // segundos antes de cancelar
+    private float moveTimer = 0f;
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
-    [SerializeField] private float jumpForce = 10f; //Ni idea si se usara de algo, pero pues si no lo quito
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float interactionRange = 1f; // Rango para interactuar
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -16,82 +38,164 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
+    // Input normal
     private float horizontalInput;
-    private bool isGrounded;
-    private bool canMove = true; // Esto para bloquear movimiento en dialogos/UI
 
-    void Awake()
+    // Point and click
+    private Vector2 moveTarget;
+    private bool hasTarget = false;
+    private Interactable targetInteractable;
+
+    private bool isGrounded;
+    public bool CanMove { get; private set; } = true;
+
+    // Events
+    public System.Action OnReachedTarget;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         CheckGround();
         HandleAnimations();
-        FlipSprite();
+        CheckTargetReached();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (canMove)
+        if (!CanMove) return;
+
+        if (hasTarget)
+        {
+            moveTimer += Time.fixedDeltaTime;
+
+            // Si lleva demasiado tiempo sin llegar, cancelar
+            if (moveTimer >= moveTimeout)
+            {
+                Debug.Log("Movimiento cancelado por timeout");
+                ClearTarget();
+                return;
+            }
+
+            MoveToTarget();
+        }
+        else
+        {
             Move();
+        }
     }
 
-    // --- INPUT (InputManager) --- //
-
+    // --- INPUT NORMAL --- //
     public void OnMove(InputAction.CallbackContext context)
     {
-        horizontalInput = context.ReadValue<Vector2>().x;
+        // Solo si no hay destino de click
+        if (!hasTarget)
+            horizontalInput = context.ReadValue<Vector2>().x;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded && canMove)
-        {
+        if (context.performed && isGrounded && CanMove)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
     }
 
-    // --- MOVIMIENTO --- //
+    // --- MOVIMIENTO NORMAL --- //
     private void Move()
     {
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+        FlipSprite(horizontalInput);
     }
 
-    // --- SUELO --- //
+    // --- POINT AND CLICK --- //
+    public void SetMoveTarget(Vector2 target, Interactable interactable = null)
+    {
+        moveTarget = target;
+        hasTarget = true;
+        targetInteractable = interactable;
+        horizontalInput = 0;
+        moveTimer = 0f; // resetear timer
+    }
+
+    public void ClearTarget()
+    {
+        hasTarget = false;
+        targetInteractable = null;
+        moveTimer = 0f;
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+    private void MoveToTarget()
+    {
+        float direction = moveTarget.x - transform.position.x;
+        float distance = Mathf.Abs(direction);
+
+        // Si llego al rango de interaccion
+        if (distance <= interactionRange)
+        {
+            ClearTarget();
+            OnReachedTarget?.Invoke();
+            return;
+        }
+
+        float move = Mathf.Sign(direction) * moveSpeed;
+        rb.linearVelocity = new Vector2(move, rb.linearVelocity.y);
+        FlipSprite(move);
+    }
+
+    private void CheckTargetReached()
+    {
+        if (!hasTarget || targetInteractable == null) return;
+
+        float distance = Mathf.Abs(
+            targetInteractable.transform.position.x - transform.position.x);
+
+        if (distance <= interactionRange)
+        {
+            Interactable toInteract = targetInteractable;
+            ClearTarget();
+            toInteract.Interact();
+        }
+    }
+
+    // --- HELPERS --- //
     private void CheckGround()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position, groundCheckRadius, groundLayer);
     }
 
-    // --- FLIP DEL SPRITE --- //
-    private void FlipSprite()
+    private void FlipSprite(float direction)
     {
-        if (horizontalInput > 0)
-            spriteRenderer.flipX = false;
-        else if (horizontalInput < 0)
-            spriteRenderer.flipX = true;
+        if (spriteRenderer == null) return;
+        if (direction > 0) spriteRenderer.flipX = false;
+        else if (direction < 0) spriteRenderer.flipX = true;
     }
 
-    // --- ANIMACIONES --- //
     private void HandleAnimations()
     {
         if (animator == null) return;
+        if (animator.runtimeAnimatorController == null) return;
 
-        if (animator.runtimeAnimatorController == null) return;// por que aun no tengo animaciones y me caga la advertencia esa
+        float speed = hasTarget ?
+            Mathf.Abs(rb.linearVelocity.x) :
+            Mathf.Abs(horizontalInput);
 
-        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
+        animator.SetFloat("Speed", speed);
         animator.SetBool("IsGrounded", isGrounded);
     }
 
-    // --- BLOQUEO DE MOVIMIENTO --- //
     public void SetMovementEnabled(bool enabled)
     {
-        canMove = enabled;
+        CanMove = enabled;
         if (!enabled)
+        {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            ClearTarget();
+        }
     }
 }

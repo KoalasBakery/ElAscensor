@@ -132,14 +132,22 @@ public class DialogueUI : MonoBehaviour
         IsTyping = true;
         dialogueText.text = "";
 
-        // Iniciar efecto ANTES del typewriter
-        if (effect != TextEffect.None)
+        if (effect == TextEffect.Wave || effect == TextEffect.Shake)
             textEffects?.PlayEffect(effect);
 
-        foreach (char c in text)
+        for (int i = 0; i < text.Length; i++)
         {
-            dialogueText.text += c;
-            yield return new WaitForSeconds(speed);
+            dialogueText.text += text[i];
+
+            if (effect == TextEffect.FadeIn)
+            {
+                // Fadear la ultima letra agregada
+                yield return StartCoroutine(textEffects.FadeInCharacter(i, speed * 3f));
+            }
+            else
+            {
+                yield return new WaitForSeconds(speed);
+            }
         }
 
         IsTyping = false;

@@ -28,7 +28,7 @@ public class DialogueTextEffects : MonoBehaviour
                 activeEffect = StartCoroutine(ShakeEffect());
                 break;
             case TextEffect.FadeIn:
-                activeEffect = StartCoroutine(FadeInEffect());
+                // El FadeIn se maneja letra por letra desde DialogueUI
                 break;
             case TextEffect.None:
             default:
@@ -127,44 +127,38 @@ public class DialogueTextEffects : MonoBehaviour
     }
 
     // --- FADE IN --- //
-    private IEnumerator FadeInEffect()
+    public IEnumerator FadeInCharacter(int charIndex, float duration = 0.2f)
     {
-        IsPlayingEffect = true;
-
         textMesh.ForceMeshUpdate();
         TMP_TextInfo textInfo = textMesh.textInfo;
 
-        for (int i = 0; i < textInfo.characterCount; i++)
+        if (charIndex >= textInfo.characterCount) yield break;
+
+        TMP_CharacterInfo charInfo = textInfo.characterInfo[charIndex];
+        if (!charInfo.isVisible) yield break;
+
+        int vertexIndex = charInfo.vertexIndex;
+        int materialIndex = charInfo.materialReferenceIndex;
+        Color32[] colors = textInfo.meshInfo[materialIndex].colors32;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
-            if (!charInfo.isVisible) continue;
-
-            int vertexIndex = charInfo.vertexIndex;
-            int materialIndex = charInfo.materialReferenceIndex;
-            Color32[] colors = textInfo.meshInfo[materialIndex].colors32;
-
-            float elapsed = 0f;
-            float duration = 0.15f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                byte alpha = (byte)Mathf.Lerp(0, 255, elapsed / duration);
-
-                for (int v = 0; v < 4; v++)
-                    colors[vertexIndex + v].a = alpha;
-
-                textMesh.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-                yield return null;
-            }
+            elapsed += Time.deltaTime;
+            byte alpha = (byte)Mathf.Lerp(0, 255, elapsed / duration);
 
             for (int v = 0; v < 4; v++)
-                colors[vertexIndex + v].a = 255;
+                colors[vertexIndex + v].a = alpha;
 
             textMesh.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            yield return null;
         }
 
-        IsPlayingEffect = false;
+        for (int v = 0; v < 4; v++)
+            colors[vertexIndex + v].a = 255;
+
+        textMesh.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 
     // --- RESET --- //

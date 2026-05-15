@@ -16,8 +16,8 @@ MonoBehaviour:
   - customFont: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     fontSize: 48
-    textEffect: 2
-    customTypingSpeed: 0.08
+    textEffect: 3
+    customTypingSpeed: 0.15
     speakerNameKey: 
     dialogueTextKey: NPC.Linea01
     speakerPortrait: {fileID: 21300000, guid: 818e3989ff32b604fb391472a839a4cb, type: 3}

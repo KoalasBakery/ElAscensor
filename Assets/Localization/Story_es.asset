@@ -76,6 +76,22 @@ MonoBehaviour:
     m_Localized: a, mi disco, quedatelo, sirve que aprendes de buena musica.
     m_Metadata:
       m_Items: []
+  - m_Id: 5783205141385216
+    m_Localized: Habla con Evan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783365477044224
+    m_Localized: "Hablale que m\xE1s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783465532166144
+    m_Localized: "Interact\xFAa con Evan"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5788311412903936
+    m_Localized: Esta nota es para recordarme de patear a Prone por que si :)
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

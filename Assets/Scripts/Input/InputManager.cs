@@ -4,10 +4,11 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
+
     private PlayerInputActions inputActions;
     private PlayerController playerController;
-    private InteractionDetector interactionDetector;
     private InventoryUI inventoryUI;
+    private JournalUI journalUI;
 
     private void Awake()
     {
@@ -20,8 +21,6 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         inputActions = new PlayerInputActions();
         playerController = FindAnyObjectByType<PlayerController>();
-        interactionDetector = FindAnyObjectByType<InteractionDetector>();
-
     }
 
     private void OnEnable()
@@ -33,6 +32,7 @@ public class InputManager : MonoBehaviour
         inputActions.Gameplay.Jump.performed += OnJump;
         inputActions.Gameplay.Interact.performed += OnInteract;
         inputActions.Gameplay.Inventory.performed += OnInventory;
+        inputActions.Gameplay.Journal.performed += OnJournal;
     }
 
     private void OnDisable()
@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
         inputActions.Gameplay.Jump.performed -= OnJump;
         inputActions.Gameplay.Interact.performed -= OnInteract;
         inputActions.Gameplay.Inventory.performed -= OnInventory;
+        inputActions.Gameplay.Journal.performed -= OnJournal;
         inputActions.Gameplay.Disable();
     }
 
@@ -59,43 +60,33 @@ public class InputManager : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        interactionDetector?.TryInteract();
+        if (DialogueManager.Instance.IsDialogueActive)
+            DialogueManager.Instance.OnContinue();
     }
 
     private void OnInventory(InputAction.CallbackContext context)
     {
         if (inventoryUI == null)
             inventoryUI = FindAnyObjectByType<InventoryUI>();
-
         inventoryUI?.ToggleInventory();
     }
 
-    // --- CAMBIO DE ESQUEMAS DE CONTROLES --- //
+    private void OnJournal(InputAction.CallbackContext context)
+    {
+        if (journalUI == null)
+            journalUI = FindAnyObjectByType<JournalUI>();
+        journalUI?.ToggleJournal();
+    }
+
     public void SwitchToUI()
     {
-        // Solo desactivamos movimiento y salto
         inputActions.Gameplay.Move.Disable();
         inputActions.Gameplay.Jump.Disable();
-
-        // Interact pasa a confirmar dialogo
-        inputActions.Gameplay.Interact.performed -= OnInteract;
-        inputActions.Gameplay.Interact.performed += OnUIConfirm;
     }
 
     public void SwitchToGameplay()
     {
-        // Reactivamos movimiento y salto
         inputActions.Gameplay.Move.Enable();
         inputActions.Gameplay.Jump.Enable();
-
-        // Interact regresa a interactuar
-        inputActions.Gameplay.Interact.performed -= OnUIConfirm;
-        inputActions.Gameplay.Interact.performed += OnInteract;
-    }
-
-    private void OnUIConfirm(InputAction.CallbackContext context)
-    {
-        if (DialogueManager.Instance.IsDialogueActive)
-            DialogueManager.Instance.OnContinue();
     }
 }

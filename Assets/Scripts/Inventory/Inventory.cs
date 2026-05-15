@@ -2,13 +2,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
+ * ---------------------------------------------------------------
+ *                         INVENTORY
+ * ---------------------------------------------------------------
+ * DESCRIPCION:
+ * Singleton que guarda los items del jugador.
+ * Soporta items normales y notas por separado.
+ * Trackea que items han sido combinados.
+ * ---------------------------------------------------------------
+ */
+
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance { get; private set; }
 
     private List<ItemData> items = new List<ItemData>();
+    private List<ItemData> notes = new List<ItemData>();
+    private List<ItemData> combinedItems = new List<ItemData>();
 
-    // Evento que avisa a la UI cuando el inventario cambia
     public UnityEvent onInventoryChanged;
 
     private void Awake()
@@ -22,17 +34,28 @@ public class Inventory : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // --- ITEMS --- //
     public bool AddItem(ItemData item)
     {
-        // Si es unico(el bool ese) y ya lo tenemos, no se agrega
+        if (item == null) return false;
+
         if (item.isUnique && items.Contains(item))
         {
-            Debug.Log("Ya tienes este ítem: " + item.itemName);
+            Debug.Log("Ya tienes: " + item.itemName);
             return false;
         }
 
-        items.Add(item);
-        Debug.Log("Ítem agregado: " + item.itemName);
+        if (item.isNote)
+        {
+            notes.Add(item);
+            Debug.Log("Nota agregada: " + item.itemName);
+        }
+        else
+        {
+            items.Add(item);
+            Debug.Log("Item agregado: " + item.itemName);
+        }
+
         onInventoryChanged?.Invoke();
         return true;
     }
@@ -45,16 +68,38 @@ public class Inventory : MonoBehaviour
             onInventoryChanged?.Invoke();
             return true;
         }
+
+        if (notes.Contains(item))
+        {
+            notes.Remove(item);
+            onInventoryChanged?.Invoke();
+            return true;
+        }
+
         return false;
     }
 
     public bool HasItem(ItemData item)
     {
-        return items.Contains(item);
+        return items.Contains(item) || notes.Contains(item);
     }
 
-    public List<ItemData> GetItems()
+    // --- COMBINADOS --- //
+    public void MarkAsCombined(ItemData item)
     {
-        return items;
+        if (!combinedItems.Contains(item))
+        {
+            combinedItems.Add(item);
+            onInventoryChanged?.Invoke();
+        }
     }
+
+    public bool IsItemCombined(ItemData item)
+    {
+        return combinedItems.Contains(item);
+    }
+
+    // --- GETTERS --- //
+    public List<ItemData> GetItems() => items;
+    public List<ItemData> GetNotes() => notes;
 }
