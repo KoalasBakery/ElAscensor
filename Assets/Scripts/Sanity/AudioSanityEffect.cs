@@ -18,7 +18,7 @@ using UnityEngine;
  *   SanityManager.Instance.onSanityChanged.AddListener(
  *       audioManager.OnSanityChanged);
  *
- * EFECTOS PLANEADOS:
+ * EFECTOS PLANEADOS (Por ahora es lo que se me ocurrio):
  *   - Bajar pitch de la musica conforme baja cordura
  *   - Agregar reverb/distorsion
  *   - Reproducir susurros en nivel 1-2
@@ -30,12 +30,12 @@ public class AudioSanityEffect : SanityEffectBase
 {
     public override void OnSanityChanged(float currentSanity, float maxSanity)
     {
-        // TODO: Implementar cuando el sistema de audio este listo
+        // NOTA: Implementar cuando el sistema de audio este listo
     }
 
     public override void OnLevelChanged(int newLevel)
     {
-        // TODO: Implementar cuando el sistema de audio este listo
+        // NOTA: Implementar cuando el sistema de audio este listo
         // Nivel 2: comenzar susurros suaves
         // Nivel 1: pasos, voces, distorsion maxima
     }

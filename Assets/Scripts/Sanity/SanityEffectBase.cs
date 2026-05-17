@@ -7,7 +7,7 @@ using UnityEngine;
  * DESCRIPCION:
  * Clase base abstracta para todos los efectos de cordura.
  * Hereda de MonoBehaviour para poder agregarse como componente
- * e implementa ISanityEffect para garantizar la interfaz.
+ * y implementa ISanityEffect para garantizar la interfaz.
  *
  * COMO USARLA:
  *   public class MiEfecto : SanityEffectBase

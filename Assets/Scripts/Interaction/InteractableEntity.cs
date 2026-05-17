@@ -6,6 +6,7 @@
  * Componente universal para cualquier entidad interactuable.
  * Ahora usa DialogueContainer en lugar de DialogueData directos,
  * lo que permite tener todos los dialogos organizados en un solo SO.
+ * como me pidio mi amiguito Evan.
  *
  * FLUJO:
  *   1. Condiciones (siempre se evaluan primero)
@@ -99,7 +100,6 @@ public class InteractableEntity : Interactable
             return;
         }
 
-        // Default
         TriggerDefault();
     }
 

@@ -15,8 +15,6 @@ using UnityEngine;
  *   3. Configurar los limites de la camara en el Inspector
  *   4. Los limites se pueden ver en la Scene view con Gizmos
  *
- * NOTA: Conectar con sistema de escenas para cambiar limites
- *       automaticamente al cambiar de cuarto
  * ---------------------------------------------------------------
  */
 

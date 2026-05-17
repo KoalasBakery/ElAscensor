@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3038a64a98a8dfe4bbca3a4dde2d769e
+guid: 7289d472e24fb1844afa97b4563efc12
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1011041053194405552
-    second: Farola_0
+      213: 5892009766026099676
+    second: RoomDer_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Farola_0
+      name: RoomDer_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 0
-        width: 11
-        height: 59
+        width: 288
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b64dfc2b70f70e00800000000000000
-      internalID: 1011041053194405552
+      spriteID: cdb3e1d3aaf94c150800000000000000
+      internalID: 5892009766026099676
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Farola_0: 1011041053194405552
+      RoomDer_0: 5892009766026099676
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

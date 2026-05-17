@@ -13,7 +13,7 @@ using UnityEngine.InputSystem;
  *
  * DEPENDENCIAS:
  *   - Rigidbody2D
- *   - Animator (opcional)
+ *   - Animator (Ahorita no eh puesto ni verga)
  *   - ClickInteraction (para point and click)
  * ---------------------------------------------------------------
  */
@@ -21,7 +21,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Point and Click")]
-    [SerializeField] private float moveTimeout = 3f; // segundos antes de cancelar
+    [SerializeField] private float moveTimeout = 3f; // segundos antes de cancelar por si se bugeara o algo
     private float moveTimer = 0f;
 
     [Header("Movement Settings")]
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     // --- INPUT NORMAL --- //
     public void OnMove(InputAction.CallbackContext context)
     {
-        // Solo si no hay destino de click
+        // Solo si no hay donde hacer click
         if (!hasTarget)
             horizontalInput = context.ReadValue<Vector2>().x;
     }
@@ -107,7 +107,13 @@ public class PlayerController : MonoBehaviour
     // --- MOVIMIENTO NORMAL --- //
     private void Move()
     {
-        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+        float targetVelocityX = horizontalInput * moveSpeed;
+        float newVelocityX = Mathf.MoveTowards(
+            rb.linearVelocity.x,
+            targetVelocityX,
+            moveSpeed * Time.fixedDeltaTime * 10f);
+
+        rb.linearVelocity = new Vector2(newVelocityX, rb.linearVelocity.y);
         FlipSprite(horizontalInput);
     }
 
@@ -118,7 +124,7 @@ public class PlayerController : MonoBehaviour
         hasTarget = true;
         targetInteractable = interactable;
         horizontalInput = 0;
-        moveTimer = 0f; // resetear timer
+        moveTimer = 0f; // reset timer
     }
 
     public void ClearTarget()
@@ -134,7 +140,6 @@ public class PlayerController : MonoBehaviour
         float direction = moveTarget.x - transform.position.x;
         float distance = Mathf.Abs(direction);
 
-        // Si llego al rango de interaccion
         if (distance <= interactionRange)
         {
             ClearTarget();
@@ -142,9 +147,15 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float move = Mathf.Sign(direction) * moveSpeed;
-        rb.linearVelocity = new Vector2(move, rb.linearVelocity.y);
-        FlipSprite(move);
+        // Usar MoveTowards para movimiento mas suave (se ve mejor, pero por mi pixel art a veces se siente raro)
+        float targetVelocityX = Mathf.Sign(direction) * moveSpeed;
+        float newVelocityX = Mathf.MoveTowards(
+            rb.linearVelocity.x,
+            targetVelocityX,
+            moveSpeed * Time.fixedDeltaTime * 10f);
+
+        rb.linearVelocity = new Vector2(newVelocityX, rb.linearVelocity.y);
+        FlipSprite(direction);
     }
 
     private void CheckTargetReached()

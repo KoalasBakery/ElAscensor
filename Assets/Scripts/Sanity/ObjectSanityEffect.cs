@@ -89,7 +89,7 @@ public class ObjectSanityEffect : SanityEffectBase
 
         if (renderers.Length == 0)
         {
-            // Si no tiene SpriteRenderer usar SetActive directo
+            // Si no tiene SpriteRenderer usar SetActive directo, obvio asi no hay fade
             obj.SetActive(fadeIn);
             yield break;
         }

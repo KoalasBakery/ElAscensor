@@ -15,7 +15,6 @@ public class JournalTester : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.N))
         {
-            // Solo completar si la mision esta activa
             if (MissionManager.Instance.IsMissionActive(testMission))
                 MissionManager.Instance.CompleteStep(testMission, 0);
             else

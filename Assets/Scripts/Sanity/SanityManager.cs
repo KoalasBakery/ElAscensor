@@ -13,7 +13,7 @@ using UnityEngine.Events;
  *   Nivel 4: 50-36 - Completamente cuerdo
  *   Nivel 3: 35-21 - Algo estresado
  *   Nivel 2: 20-06 - Perdiendo cordura
- *   Nivel 1: 05-00 - Al limite (Game Over si llega a 0)
+ *   Nivel 1: 05-00 - Al limite (Final Malo si llega a 0)
  *
  * COMO USARLO:
  *   SanityManager.Instance.ModifySanity(-10); // bajar cordura
@@ -24,7 +24,6 @@ using UnityEngine.Events;
  *   - SanityEffects (efectos visuales)
  *   - SanityUI      (barra visual)
  *
- * TODO: Conectar con sistema de guardado cuando este listo
  * ---------------------------------------------------------------
  */
 
@@ -96,7 +95,7 @@ public class SanityManager : MonoBehaviour
         // Game Over si llego a 0
         if (CurrentSanity <= 0f)
         {
-            Debug.Log("GAME OVER - Cordura perdida");
+            Debug.Log("BAD ENDING - Cordura perdida");
             onGameOver?.Invoke();
         }
 
