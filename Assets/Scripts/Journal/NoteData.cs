@@ -7,7 +7,7 @@ using UnityEngine;
  * DESCRIPCION:
  * ScriptableObject que define una nota o documento del juego.
  * Las notas se guardan en una pestana especial del Journal
- * separada de los items normales del inventario.
+ * separada de los items normales del inventario. 
  *
  * TIPOS DE NOTAS:
  *   - Paginas de diario
@@ -17,6 +17,7 @@ using UnityEngine;
  *
  * SETUP:
  * Clic derecho en Assets -> Journal -> Note
+ * NOTA: Pos no se si daran solo imagenes o tendremos que escribir pero pues para el futuro
  * ---------------------------------------------------------------
  */
 

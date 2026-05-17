@@ -28,7 +28,7 @@ public class SanityEffects : MonoBehaviour
         foreach (var effect in foundEffects)
             effects.Add(effect);
 
-        Debug.Log($"SanityEffects: {effects.Count} efectos encontrados");
+        Debug.Log($"SanityEffects: {effects.Count} efectos encontrados"); //
     }
 
     private void Start()

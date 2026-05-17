@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5cba22d8fadebf94b853ba4e1b49689a
+guid: cf66d6baf8510dd4da37f8791198545b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4450958078449986609
-    second: Decal_0
+      213: -3144690285530386005
+    second: RoomMid_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 64
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Decal_0
+      name: RoomMid_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 288
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc355d7b5350b32c0800000000000000
-      internalID: -4450958078449986609
+      spriteID: ba1f65ab8d0db54d0800000000000000
+      internalID: -3144690285530386005
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Decal_0: -4450958078449986609
+      RoomMid_0: -3144690285530386005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

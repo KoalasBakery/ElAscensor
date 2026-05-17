@@ -61,7 +61,7 @@ public class DialogueContainerEditor : Editor
         Rect titleRect = new Rect(rect.x, rect.y + 5, rect.width, 25);
         Rect subtitleRect = new Rect(rect.x, rect.y + 28, rect.width, 15);
 
-        EditorGUI.LabelField(titleRect, "💬 Dialogue Container", titleStyle);
+        EditorGUI.LabelField(titleRect, "Dialogue Container", titleStyle);
         EditorGUI.LabelField(subtitleRect,
             string.IsNullOrEmpty(container.containerName) ?
             "Sin nombre" : container.containerName, subtitleStyle);
@@ -70,7 +70,7 @@ public class DialogueContainerEditor : Editor
     // --- INFO --- //
     private void DrawInfo()
     {
-        DrawSection("📋 Información", () =>
+        DrawSection("Información", () =>
         {
             SerializedProperty nameProp = serializedObject.FindProperty("containerName");
             EditorGUILayout.PropertyField(nameProp,
@@ -106,7 +106,7 @@ public class DialogueContainerEditor : Editor
     // --- DIALOGOS PRINCIPALES --- //
     private void DrawMainDialogues()
     {
-        DrawSection("🎬 Diálogos Principales", () =>
+        DrawSection("Diálogos Principales", () =>
         {
             SerializedProperty initialProp = serializedObject.FindProperty("initialDialogue");
             SerializedProperty repeatingProp = serializedObject.FindProperty("repeatingDialogue");
@@ -138,7 +138,7 @@ public class DialogueContainerEditor : Editor
     // --- TODOS LOS DIALOGOS --- //
     private void DrawAllDialogues()
     {
-        DrawSection("📚 Todos los Diálogos", () =>
+        DrawSection("Todos los Diálogos", () =>
         {
             showAllDialogues = EditorGUILayout.Foldout(showAllDialogues,
                 $"Diálogos ({container.allDialogues?.Count ?? 0})", true);
@@ -216,7 +216,7 @@ public class DialogueContainerEditor : Editor
     // --- ACCIONES --- //
     private void DrawActions()
     {
-        DrawSection("⚡ Acciones Rápidas", () =>
+        DrawSection("Acciones Rápidas", () =>
         {
             EditorGUILayout.HelpBox(
                 "Crea un nuevo DialogueData y lo agrega automáticamente al contenedor.",
@@ -224,7 +224,7 @@ public class DialogueContainerEditor : Editor
 
             EditorGUILayout.Space(3);
 
-            if (GUILayout.Button("✨ Crear Nuevo DialogueData", GUILayout.Height(30)))
+            if (GUILayout.Button("Crear Nuevo DialogueData", GUILayout.Height(30)))
             {
                 CreateNewDialogueData();
             }

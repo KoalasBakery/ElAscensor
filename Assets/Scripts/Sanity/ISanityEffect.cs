@@ -22,9 +22,9 @@ public interface ISanityEffect
     // Se llama cuando cambia el nivel de cordura (1-4)
     void OnLevelChanged(int newLevel);
 
-    // Se llama cuando el efecto debe activarse
+    // Activarse
     void Enable();
 
-    // Se llama cuando el efecto debe desactivarse
+    // Desactivarse
     void Disable();
 }
