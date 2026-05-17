@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfec8c4432f32e448ad570382b6c48b, type: 3}
+  m_Name: AudioManager
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManagerData
+  <audioEvents>k__BackingField:
+  - {fileID: 11400000, guid: 00d72a0c4599012489dcc877a0162fa7, type: 2}
+  - {fileID: 11400000, guid: 3a702227b4bb47e4faac9efdfeb4bdd8, type: 2}
+  - {fileID: 11400000, guid: c77fd7037e27c4746be82b1b536d330f, type: 2}
+  - {fileID: 11400000, guid: 9184cdebd296f3545b53b149b2b9b038, type: 2}
+  - {fileID: 11400000, guid: d3bb20770d4d84c4eb5a291c62977eb2, type: 2}
+  <audioMixer>k__BackingField: {fileID: 24100000, guid: 96a8e8964d478ac4b99d161ec06465c4, type: 2}

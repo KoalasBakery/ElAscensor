@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640fae0cbc5d5a4449cbc86951c5b4e0, type: 3}
+  m_Name: Data02
+  m_EditorClassIdentifier: Assembly-CSharp::AudioData
+  <clips>k__BackingField:
+  - clip: {fileID: 8300000, guid: b6ba1598620706c4da5903d20e29e913, type: 3}
+    volume: 1
+  <mixerGroup>k__BackingField: {fileID: 4322859051865255135, guid: 96a8e8964d478ac4b99d161ec06465c4, type: 2}
+  <pitchMin>k__BackingField: 1
+  <pitchMax>k__BackingField: 1
+  <loop>k__BackingField: 1
+  <priority>k__BackingField: 150
+  <spatialBlend>k__BackingField: 0
+  <reverbZoneMix>k__BackingField: 1
+  <dopplerLevel>k__BackingField: 1
+  <spread>k__BackingField: 0
+  <rolloffMode>k__BackingField: 0
+  <minDistance>k__BackingField: 1
+  <maxDistance>k__BackingField: 500
