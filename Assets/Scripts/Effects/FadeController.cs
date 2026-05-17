@@ -30,11 +30,6 @@ public class FadeController : MonoBehaviour
         sprRend = GetComponent<SpriteRenderer>();
         sprRend.color = fadeColor;
     }
-    private void Start()
-    {
-        FadeOut();
-    }
-
     #region Fade In Methods
     public void FadeIn()
     {
