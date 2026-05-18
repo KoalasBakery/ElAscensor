@@ -6,11 +6,10 @@ public class CodePuzzle : PuzzleBehaviour
     string input="";
     [SerializeField] TMP_Text codeText;
     
-    public override void Init()
+    public override void Init(PuzzleData _newPuzzleData)
     {
-        base.Init();
+        base.Init(_newPuzzleData);
         input = "";
-        Debug.Log("CodePuzzle Init");
     }
     public override void Input(string _input)
     {

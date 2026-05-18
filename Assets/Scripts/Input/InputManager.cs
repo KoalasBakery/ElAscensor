@@ -5,7 +5,8 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
 
-    private PlayerInputActions inputActions;
+   [SerializeField] private PlayerInputActions inputActions;
+    [SerializeField] PlayerInput actions;
     private PlayerController playerController;
     private InventoryUI inventoryUI;
     private JournalUI journalUI;
@@ -19,11 +20,11 @@ public class InputManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        inputActions = new PlayerInputActions();
+        //inputActions = new PlayerInputActions();
         playerController = FindAnyObjectByType<PlayerController>();
     }
 
-    private void OnEnable()
+   /* private void OnEnable()
     {
         inputActions.Gameplay.Enable();
 
@@ -44,36 +45,50 @@ public class InputManager : MonoBehaviour
         inputActions.Gameplay.Inventory.performed -= OnInventory;
         inputActions.Gameplay.Journal.performed -= OnJournal;
         inputActions.Gameplay.Disable();
-    }
+    }*/
 
-    private void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
         if (playerController != null)
             playerController.OnMove(context);
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (playerController != null)
+
+        if (playerController != null && context.performed)
             playerController.OnJump(context);
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        if (DialogueManager.Instance.IsDialogueActive)
+        if (DialogueManager.Instance.IsDialogueActive && context.performed)
             DialogueManager.Instance.OnContinue();
     }
-
-    private void OnInventory(InputAction.CallbackContext context)
+    
+    //Esto es para los puzzles
+    public void OnInteractPosition(InputAction.CallbackContext context)
     {
-        if (inventoryUI == null)
+        if (!PuzzleManager.Instance.activePuzzle) return;
+
+        if (context.canceled)
+        {
+            PuzzleManager.Instance.OnRelease();   
+            return;
+        }
+        PuzzleManager.Instance.OnInteract(context);
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (inventoryUI == null && context.performed)
             inventoryUI = FindAnyObjectByType<InventoryUI>();
         inventoryUI?.ToggleInventory();
     }
 
-    private void OnJournal(InputAction.CallbackContext context)
+    public void OnJournal(InputAction.CallbackContext context)
     {
-        if (journalUI == null)
+        if (journalUI == null && context.performed)
             journalUI = FindAnyObjectByType<JournalUI>();
         journalUI?.ToggleJournal();
     }

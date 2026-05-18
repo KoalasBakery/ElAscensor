@@ -50,6 +50,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InteractPosition",
+                    "type": "Value",
+                    "id": "3f1c1aa1-974d-4602-94b7-870b7bda6e74",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -132,6 +141,17 @@
                 },
                 {
                     "name": "",
+                    "id": "303ed9da-25a2-413c-b836-2ffb4fece5c2",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "14d98c35-3db1-415b-a2c1-3094d77ba3cf",
                     "path": "<Keyboard>/tab",
                     "interactions": "",
@@ -149,6 +169,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Journal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41b9e670-deef-4181-adf6-f0c4e3ffe590",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d3c6eeb-2e84-4697-a1bf-cb8ab9f6bbe4",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

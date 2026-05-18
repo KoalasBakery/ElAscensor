@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PuzzleBehaviour: MonoBehaviour
 {
@@ -10,13 +11,22 @@ public abstract class PuzzleBehaviour: MonoBehaviour
     protected event Action<AudioData, Transform> soundReproductor;
 
     public PuzzleData data;
+
+    public virtual void OnInteract(InputAction.CallbackContext context)
+    { 
+    }
+    public virtual void OnRelease()
+    {
+    }
+
+
     public virtual void PuzzleComplete()
     { 
         onPuzzleCompleted?.Invoke();
     }
-    public virtual void Init()
+    public virtual void Init(PuzzleData _newPuzzleData)
     {
-
+        data = _newPuzzleData;
     }
     public virtual void Start()
     { 
