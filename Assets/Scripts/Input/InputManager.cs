@@ -5,11 +5,11 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
 
-   [SerializeField] private PlayerInputActions inputActions;
-    [SerializeField] PlayerInput actions;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerController playerController;
     private InventoryUI inventoryUI;
     private JournalUI journalUI;
+    private InteractionDetector interactionDetector;
 
     private void Awake()
     {
@@ -20,33 +20,11 @@ public class InputManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        //inputActions = new PlayerInputActions();
         playerController = FindAnyObjectByType<PlayerController>();
+        interactionDetector = FindAnyObjectByType<InteractionDetector>();
     }
 
-   /* private void OnEnable()
-    {
-        inputActions.Gameplay.Enable();
-
-        inputActions.Gameplay.Move.performed += OnMove;
-        inputActions.Gameplay.Move.canceled += OnMove;
-        inputActions.Gameplay.Jump.performed += OnJump;
-        inputActions.Gameplay.Interact.performed += OnInteract;
-        inputActions.Gameplay.Inventory.performed += OnInventory;
-        inputActions.Gameplay.Journal.performed += OnJournal;
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Gameplay.Move.performed -= OnMove;
-        inputActions.Gameplay.Move.canceled -= OnMove;
-        inputActions.Gameplay.Jump.performed -= OnJump;
-        inputActions.Gameplay.Interact.performed -= OnInteract;
-        inputActions.Gameplay.Inventory.performed -= OnInventory;
-        inputActions.Gameplay.Journal.performed -= OnJournal;
-        inputActions.Gameplay.Disable();
-    }*/
-
+    // --- GAMEPLAY --- //
     public void OnMove(InputAction.CallbackContext context)
     {
         if (playerController != null)
@@ -55,25 +33,30 @@ public class InputManager : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-
         if (playerController != null && context.performed)
             playerController.OnJump(context);
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (DialogueManager.Instance.IsDialogueActive && context.performed)
+        if (!context.performed) return;
+
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
+        {
             DialogueManager.Instance.OnContinue();
+            return;
+        }
+
+        interactionDetector?.TryInteract();
     }
-    
-    //Esto es para los puzzles
+
     public void OnInteractPosition(InputAction.CallbackContext context)
     {
-        if (!PuzzleManager.Instance.activePuzzle) return;
+        if (PuzzleManager.Instance == null || !PuzzleManager.Instance.activePuzzle) return;
 
         if (context.canceled)
         {
-            PuzzleManager.Instance.OnRelease();   
+            PuzzleManager.Instance.OnRelease();
             return;
         }
         PuzzleManager.Instance.OnInteract(context);
@@ -81,27 +64,31 @@ public class InputManager : MonoBehaviour
 
     public void OnInventory(InputAction.CallbackContext context)
     {
-        if (inventoryUI == null && context.performed)
+        if (!context.performed) return;
+        if (inventoryUI == null)
             inventoryUI = FindAnyObjectByType<InventoryUI>();
         inventoryUI?.ToggleInventory();
     }
 
     public void OnJournal(InputAction.CallbackContext context)
     {
-        if (journalUI == null && context.performed)
+        if (!context.performed) return;
+        if (journalUI == null)
             journalUI = FindAnyObjectByType<JournalUI>();
         journalUI?.ToggleJournal();
     }
 
+    // --- CAMBIO DE ESQUEMAS --- //
     public void SwitchToUI()
     {
-        inputActions.Gameplay.Move.Disable();
-        inputActions.Gameplay.Jump.Disable();
+        // Solo bloqueamos movimiento y salto
+        // Los clicks en UI siempre funcionan
+        // E sigue funcionando para avanzar dialogo
+        playerController?.SetMovementEnabled(false);
     }
 
     public void SwitchToGameplay()
     {
-        inputActions.Gameplay.Move.Enable();
-        inputActions.Gameplay.Jump.Enable();
+        playerController?.SetMovementEnabled(true);
     }
 }

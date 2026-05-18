@@ -54,6 +54,7 @@ public class JournalUI : MonoBehaviour
     [SerializeField] private float animSpeed = 6f;
 
     private bool isOpen = false;
+    private bool isAnimating = false;
     private List<NoteData> collectedNotes = new List<NoteData>();
 
     private void Awake()
@@ -96,6 +97,9 @@ public class JournalUI : MonoBehaviour
     // --- TOGGLE --- //
     public void ToggleJournal()
     {
+        // Si esta animando ignorar el input
+        if (isAnimating) return;
+
         isOpen = !isOpen;
 
         if (isOpen)
@@ -109,23 +113,29 @@ public class JournalUI : MonoBehaviour
 
     private IEnumerator AnimateJournal(bool open)
     {
+        isAnimating = true;
         journalPanel.SetActive(true);
-        canvasGroup.blocksRaycasts = open;
+        canvasGroup.blocksRaycasts = false; // desactivar mientras anima
 
         float targetAlpha = open ? 1f : 0f;
         float currentAlpha = canvasGroup.alpha;
 
         while (Mathf.Abs(currentAlpha - targetAlpha) > 0.01f)
         {
-            currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha, Time.deltaTime * animSpeed);
+            currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha,
+                Time.deltaTime * animSpeed);
             canvasGroup.alpha = currentAlpha;
             yield return null;
         }
 
+        // Asegurar valor final exacto
         canvasGroup.alpha = targetAlpha;
+        canvasGroup.blocksRaycasts = open;
 
         if (!open)
             journalPanel.SetActive(false);
+
+        isAnimating = false;
     }
 
     // --- PESTANAS --- //
