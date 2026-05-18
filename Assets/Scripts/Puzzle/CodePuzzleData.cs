@@ -3,5 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewPuzzleData", menuName = "Events/Puzzle/Code")]
 public class CodePuzzleData : PuzzleData
 {
-    CodePuzzle puzzleController;
+    [field: SerializeField] public string code { get; private set; }
+
 }

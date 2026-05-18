@@ -5,9 +5,8 @@ using UnityEngine;
 
 public static class Helpers
 {
-
+  
     static WaitForEndOfFrame waitForEndFrame;
-
     public static WaitForEndOfFrame GetWaitForEndOfFrame()
     {
         return (waitForEndFrame != null) ? waitForEndFrame : waitForEndFrame = new WaitForEndOfFrame();

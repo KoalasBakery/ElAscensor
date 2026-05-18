@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 595b59baa707ea64a965d948bc33f0fa, type: 3}
-  m_Name: NewPuzzleData
+  m_Name: FusePuzzleHorizontal
   m_EditorClassIdentifier: Assembly-CSharp::FusePuzzleData
+  behaviour:
+    rid: 6641758726020399446
   puzzleKey: 
   description: 
   <fuses>k__BackingField:
-  - fuseStart: {x: 0, y: 1}
-    fuseEnd: {x: 1, y: 0}
+  - fuseStart: {x: 0, y: 0}
+    fuseEnd: {x: 1, y: 1}
     color:
       serializedVersion: 2
       key0: {r: 1, g: 0, b: 0, a: 1}
@@ -47,8 +49,8 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-  - fuseStart: {x: 0, y: 0}
-    fuseEnd: {x: 1, y: 2}
+  - fuseStart: {x: 2, y: 0}
+    fuseEnd: {x: 0, y: 1}
     color:
       serializedVersion: 2
       key0: {r: 0.09884381, g: 1, b: 0, a: 1}
@@ -79,8 +81,8 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-  - fuseStart: {x: 0, y: 2}
-    fuseEnd: {x: 1, y: 1}
+  - fuseStart: {x: 1, y: 0}
+    fuseEnd: {x: 2, y: 1}
     color:
       serializedVersion: 2
       key0: {r: 0.23316348, g: 0, b: 1, a: 1}
@@ -111,3 +113,14 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+  <fuseSprite>k__BackingField: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  <offset>k__BackingField: {x: -2.5, y: -2.5}
+  <spacing>k__BackingField: {x: 2, y: 7}
+  <lineRendPrefab>k__BackingField: {fileID: 2083340321064975390, guid: d39b65e3bcf4f6e4dbcfa5e1c93d4169, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6641758726020399446
+      type: {class: FusePuzzle, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 11400000}

@@ -3,14 +3,14 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class PuzzleBehaviour: MonoBehaviour
+public abstract class PuzzleBehaviour
 {
     protected event Action onPuzzleCompleted;
     protected event Action onPuzzleFailed;
     protected event Action<string> onPuzzleInputReceived;
     protected event Action<AudioData, Transform> soundReproductor;
 
-    public PuzzleData data;
+  //  public PuzzleData data;
 
     public virtual void OnInteract(InputAction.CallbackContext context)
     { 
@@ -26,7 +26,11 @@ public abstract class PuzzleBehaviour: MonoBehaviour
     }
     public virtual void Init(PuzzleData _newPuzzleData)
     {
-        data = _newPuzzleData;
+       // data = _newPuzzleData;
+    }
+    public virtual void ShowPuzzleInEditor(PuzzleData _newPuzzleData)
+    { 
+        //data = _newPuzzleData;
     }
     public virtual void Start()
     { 
