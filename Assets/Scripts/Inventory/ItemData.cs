@@ -36,6 +36,25 @@ public class ItemData : ScriptableObject
     [Tooltip("Item con el que se combina este item")]
     public ItemData combinesWith;
 
+    [Header("Consumible")]
+    [Tooltip("Si el item se puede consumir")]
+    public bool isConsumable = false;
+
+    [Tooltip("Key de localizacion del mensaje al consumir")]
+    public string consumeMessageKey;
+
+    [Tooltip("Cuanta cordura da al consumirse (puede ser negativo)")]
+    public float sanityEffect = 0f;
+
+    [Tooltip("Usos disponibles, -1 = usos infinitos")]
+    public int maxUses = 1;
+
+    [Tooltip("Flag que activa al consumirse")]
+    public string consumeFlagKey;
+
+    [Tooltip("Flag que activa cuando se acaban los usos")]
+    public string depletedflagKey;
+
     [Tooltip("Item resultante de la combinacion")]
     public ItemData combineResult;
 

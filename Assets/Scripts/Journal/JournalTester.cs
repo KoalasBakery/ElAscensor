@@ -4,11 +4,15 @@ public class JournalTester : MonoBehaviour
 {
     [SerializeField] private MissionData testMission;
     [SerializeField] private NoteData testNote;
+    [SerializeField] private ItemData pastillas;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
             MissionManager.Instance.UnlockMission(testMission);
+
+        if (Input.GetKeyDown(KeyCode.P))
+            Inventory.Instance.AddItem(pastillas);
 
         if (Input.GetKeyDown(KeyCode.B))
             JournalUI.Instance.AddNote(testNote);

@@ -2,6 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization.Settings;
+
+/*
+ * ---------------------------------------------------------------
+ *                      ITEM INSPECT UI
+ * ---------------------------------------------------------------
+ * DESCRIPCION:
+ * Muestra la vista de inspeccion de un item al clickearlo
+ * en el inventario. Igual que Sally Face — imagen grande
+ * del item y descripcion a la derecha.
+ * Si el item es consumible muestra el boton de Consumir.
+ * ---------------------------------------------------------------
+ */
 
 public class ItemInspectUI : MonoBehaviour
 {
@@ -11,27 +24,28 @@ public class ItemInspectUI : MonoBehaviour
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [SerializeField] private TextMeshProUGUI usesText;
+    [SerializeField] private Button consumeButton;
     [SerializeField] private Button closeButton;
 
     [Header("Animacion")]
     [SerializeField] private float animSpeed = 6f;
-    [SerializeField] private float offsetY = 80f; // cuanto sube desde abajo
-    [SerializeField] private float centerY = 0f;  // posicion final en centro
-
-    public bool IsOpen { get; private set; }
+    [SerializeField] private float offsetY = 80f;
+    [SerializeField] private float centerY = 0f;
 
     private Vector2 hiddenPos;
     private Vector2 visiblePos;
+    private ItemData currentItem;
+
+    public bool IsOpen { get; private set; }
 
     private void Start()
     {
-        // Posicion oculta = un poco abajo del centro
         hiddenPos = new Vector2(0, centerY - offsetY);
         visiblePos = new Vector2(0, centerY);
 
         inspectPanel.anchoredPosition = hiddenPos;
 
-        // Empieza transparente e invisible
         if (canvasGroup == null)
             canvasGroup = inspectPanel.GetComponent<CanvasGroup>();
         if (canvasGroup == null)
@@ -41,14 +55,15 @@ public class ItemInspectUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         inspectPanel.gameObject.SetActive(false);
 
-        if (closeButton != null)
-            closeButton.onClick.AddListener(Hide);
+        closeButton?.onClick.AddListener(Hide);
+        consumeButton?.onClick.AddListener(OnConsumePressed);
     }
 
     public void Show(ItemData item)
     {
         if (item == null) return;
 
+        currentItem = item;
         IsOpen = true;
         inspectPanel.gameObject.SetActive(true);
         canvasGroup.blocksRaycasts = true;
@@ -72,8 +87,55 @@ public class ItemInspectUI : MonoBehaviour
                 (isCombined && !string.IsNullOrEmpty(item.combinedDescription)) ?
                 item.combinedDescription : item.description;
 
+        // Usos restantes
+        UpdateUsesText(item);
+
+        // Boton consumir
+        if (consumeButton != null)
+            consumeButton.gameObject.SetActive(item.isConsumable);
+
         StopAllCoroutines();
         StartCoroutine(AnimateShow());
+    }
+
+    private void UpdateUsesText(ItemData item)
+    {
+        if (usesText == null) return;
+
+        if (!item.isConsumable)
+        {
+            usesText.gameObject.SetActive(false);
+            return;
+        }
+
+        usesText.gameObject.SetActive(true);
+
+        int uses = Inventory.Instance.GetRemainingUses(item);
+
+        if (item.maxUses == -1)
+            usesText.text = "Usos: Infinitos";
+        else
+            usesText.text = $"Usos: {uses}/{item.maxUses}";
+    }
+
+    private void OnConsumePressed()
+    {
+        if (currentItem == null) return;
+
+        bool consumed = Inventory.Instance.ConsumeItem(currentItem);
+
+        if (consumed)
+        {
+            // Si se agoto el item cerramos el panel
+            if (!Inventory.Instance.HasItem(currentItem))
+            {
+                Hide();
+                return;
+            }
+
+            // Si quedan usos actualizamos el texto
+            UpdateUsesText(currentItem);
+        }
     }
 
     public void Hide()
@@ -122,5 +184,6 @@ public class ItemInspectUI : MonoBehaviour
         inspectPanel.anchoredPosition = hiddenPos;
         inspectPanel.gameObject.SetActive(false);
         IsOpen = false;
+        currentItem = null;
     }
 }

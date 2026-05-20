@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 466b1e5231e064044bf8511d95eb32c9, type: 3}
-  m_Name: TestItem
+  m_Name: Pastillas
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Chingadera Test
-  description: Una chingadera tan cabrona que ni forma fisica tienes, asi de cabron.
+  itemName: Pastillas
+  description: Bote de pastillas para dejarme de mamadas y hacerme hombre
   icon: {fileID: 0}
   inspectImage: {fileID: 0}
   combinesWith: {fileID: 0}
-  isConsumable: 0
+  isConsumable: 1
   consumeMessageKey: 
-  sanityEffect: 0
-  maxUses: 1
-  consumeFlagKey: 
-  depletedflagKey: 
+  sanityEffect: 10
+  maxUses: 5
+  consumeFlagKey: PastillasUsadas
+  depletedflagKey: PastillasAgotadas
   combineResult: {fileID: 0}
   combineDialogueKey: 
   combinedIcon: {fileID: 0}

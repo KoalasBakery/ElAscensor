@@ -23,6 +23,8 @@ public class Inventory : MonoBehaviour
 
     public UnityEvent onInventoryChanged;
 
+    private Dictionary<ItemData, int> itemUses = new Dictionary<ItemData, int>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -53,7 +55,65 @@ public class Inventory : MonoBehaviour
         else
         {
             items.Add(item);
+
+            // Registrar usos si es consumible
+            if (item.isConsumable && !itemUses.ContainsKey(item))
+                itemUses[item] = item.maxUses;
+
             Debug.Log("Item agregado: " + item.itemName);
+        }
+
+        onInventoryChanged?.Invoke();
+        return true;
+    }
+
+    public int GetRemainingUses(ItemData item)
+    {
+        if (!itemUses.ContainsKey(item)) return item.maxUses;
+        return itemUses[item];
+    }
+
+    public bool ConsumeItem(ItemData item)
+    {
+        if (!items.Contains(item)) return false;
+        if (!item.isConsumable) return false;
+
+        // Aplicar efecto de cordura
+        if (item.sanityEffect != 0)
+            SanityManager.Instance.ModifySanity(item.sanityEffect);
+
+        // Activar flag al consumir
+        if (!string.IsNullOrEmpty(item.consumeFlagKey))
+            FlagManager.Instance.SetFlag(item.consumeFlagKey, true);
+
+        // Manejar usos
+        if (item.maxUses == -1)
+        {
+            // Usos infinitos, no hacer nada
+            onInventoryChanged?.Invoke();
+            return true;
+        }
+
+        if (itemUses.ContainsKey(item))
+        {
+            itemUses[item]--;
+
+            if (itemUses[item] <= 0)
+            {
+                // Se acabaron los usos
+                items.Remove(item);
+                itemUses.Remove(item);
+
+                // Activar flag de agotado
+                if (!string.IsNullOrEmpty(item.depletedflagKey))
+                    FlagManager.Instance.SetFlag(item.depletedflagKey, true);
+
+                Debug.Log($"{item.itemName} agotado");
+            }
+            else
+            {
+                Debug.Log($"{item.itemName} usos restantes: {itemUses[item]}");
+            }
         }
 
         onInventoryChanged?.Invoke();
