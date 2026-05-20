@@ -11,16 +11,16 @@ public class FusePuzzle : PuzzleBehaviour
     Vector2 inputWorldPosition;
     int currentIndex;
 
-    public override void Init(PuzzleData _newPuzzleData)
+    public override void Init(PuzzleData _newPuzzleData, PuzzleManager _manager)
     {
-        base.Init(_newPuzzleData);
+        base.Init(_newPuzzleData, _manager);
 
         currentFuse = null;
         EraseFuses();
 
         FusePuzzleData fuseData = (FusePuzzleData)_newPuzzleData;
 
-        Fuse[] allFuses= PuzzleManager.Instance.fusePuzzleHolder.GetComponentsInChildren<Fuse>();
+        Fuse[] allFuses= _manager.fusePuzzleHolder.GetComponentsInChildren<Fuse>();
 
         for (int i = 0; i < fuseData.fuses.Length; i++)
         {

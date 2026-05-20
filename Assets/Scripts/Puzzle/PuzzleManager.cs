@@ -33,15 +33,11 @@ public class PuzzleManager : MonoBehaviour
        //currentPuzzle = FindAnyObjectByType<PuzzleBehaviour >();
         activePuzzle = true;
     }
-    [ContextMenu("Puzzle in editor")]
-    public void ShowPuzzle()
-    {
-        puzzle.behaviour.ShowPuzzleInEditor(puzzle);
-    }
+  
     [ContextMenu("Puzzle in Game")]
     public void StartPuzzle()
     {
-        puzzle.behaviour.Init(puzzle);
+        puzzle.behaviour.Init(puzzle, Instance);
 
 
         // transform.position = Vector3.zero;
