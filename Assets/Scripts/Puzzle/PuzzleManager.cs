@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
     public bool activePuzzle;
     public PuzzleBehaviour currentPuzzle;
     [field: SerializeField] public GameObject codePuzzleHolder { get; private set; }
+    [field: SerializeField] public GameObject fusePuzzleHolder { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
