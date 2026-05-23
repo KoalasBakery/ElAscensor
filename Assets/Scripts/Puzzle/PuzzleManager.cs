@@ -17,6 +17,9 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(fusePuzzleHolder);
+
     }
    
     public GameObject InstantiatePrefab(GameObject _prefab)

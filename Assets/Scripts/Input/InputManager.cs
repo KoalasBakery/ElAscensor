@@ -69,7 +69,7 @@ public class InputManager : MonoBehaviour
     //Esto es para los puzzles
     public void OnInteractPosition(InputAction.CallbackContext context)
     {
-        if (!PuzzleManager.Instance.activePuzzle) return;
+        if (PuzzleManager.Instance==null||!PuzzleManager.Instance.activePuzzle) return;
 
         if (context.canceled)
         {

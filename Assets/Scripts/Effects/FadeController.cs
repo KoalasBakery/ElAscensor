@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
  * Monobehavoour que controla un SpriteRenderer para fadear la pantalla al entrar o salir de una escena. 
@@ -13,7 +14,7 @@ public class FadeController : MonoBehaviour
     public static FadeController Instance;
     public event Action OnFadeInComplete;
     public event Action OnFadeOutComplete;
-    SpriteRenderer sprRend;
+    Image sprRend;
     [SerializeField] Color fadeColor= Color.black;
     #endregion
 
@@ -26,10 +27,12 @@ public class FadeController : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-        sprRend = GetComponent<SpriteRenderer>();
+       // DontDestroyOnLoad(gameObject);
+        sprRend = GetComponent<Image>();
         sprRend.color = fadeColor;
+        FadeOut();
     }
+
     #region Fade In Methods
     public void FadeIn()
     {
@@ -111,5 +114,7 @@ public class FadeController : MonoBehaviour
             OnFadeInComplete?.Invoke();
         else
             OnFadeOutComplete?.Invoke();
+        OnFadeInComplete = null;
+        OnFadeOutComplete = null;
     }
 }
