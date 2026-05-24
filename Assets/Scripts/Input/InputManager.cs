@@ -31,10 +31,24 @@ public class InputManager : MonoBehaviour
             playerController.OnMove(context);
     }
 
+    /*
     public void OnJump(InputAction.CallbackContext context)
     {
         if (playerController != null && context.performed)
             playerController.OnJump(context);
+    }
+    */
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (playerController != null)
+            playerController.OnRun(context);
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (playerController != null)
+            playerController.OnCrouch(context);
     }
 
     public void OnInteract(InputAction.CallbackContext context)

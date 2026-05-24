@@ -256,6 +256,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24364001}
   m_CullTransparentMesh: 1
+--- !u!1 &37392047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 37392048}
+  - component: {fileID: 37392051}
+  - component: {fileID: 37392050}
+  m_Layer: 5
+  m_Name: TestPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &37392048
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37392047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 574181911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1156.6, y: 681.8}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &37392050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37392047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.5707547, b: 0.6585861, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &37392051
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37392047}
+  m_CullTransparentMesh: 1
 --- !u!1 &98610211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,6 +1689,7 @@ GameObject:
   - component: {fileID: 574181914}
   - component: {fileID: 574181915}
   - component: {fileID: 574181916}
+  - component: {fileID: 574181917}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1705,6 +1781,7 @@ RectTransform:
   - {fileID: 1423559521}
   - {fileID: 1754792902}
   - {fileID: 982470672}
+  - {fileID: 37392048}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1827,6 +1904,33 @@ MonoBehaviour:
   detailImage: {fileID: 414461971}
   closeDetailButton: {fileID: 670202832}
   animSpeed: 6
+--- !u!114 &574181917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574181907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf2d735094fa5448b777b38999a3222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIAnimationTester
+  testPanel: {fileID: 37392048}
+  fadeInPreset: {fileID: 11400000, guid: ab822184bde562e44b24cd759c1f10b2, type: 2}
+  fadeOutPreset: {fileID: 11400000, guid: ebaaaa2975e35104e952ceb717b378fa, type: 2}
+  slideInPreset: {fileID: 11400000, guid: f737706e24b57134ab0dc3179ce14c04, type: 2}
+  slideOutPreset: {fileID: 11400000, guid: f334e84643300484b8a1429bb86d194e, type: 2}
+  scaleInPreset: {fileID: 11400000, guid: fc239c0583714ae4397bc2531f75d50c, type: 2}
+  scaleOutPreset: {fileID: 11400000, guid: 85d7308db3659b14fb03a7a1a7dee3ec, type: 2}
+  shakePreset: {fileID: 11400000, guid: 2238aed4fb7f95d45b12ae89a601bfb4, type: 2}
+  punchPreset: {fileID: 11400000, guid: bfc9da23a5e5ffa47a4b48608b596e06, type: 2}
+  rotatePreset: {fileID: 11400000, guid: cff3477e22fb62f428f32bf03910435d, type: 2}
+  loopPreset: {fileID: 11400000, guid: c252430103651f54a9de67e0a4937ef5, type: 2}
+  colorTweenPreset: {fileID: 11400000, guid: fcb7f6c67fff6a94fbb57980b42815c0, type: 2}
+  fillAmountPreset: {fileID: 11400000, guid: 6cf5566f7c9b4fd439054d23e5d228ba, type: 2}
+  staggerPreset: {fileID: 11400000, guid: 76bcf7739c4eb66438afaad8d16dbe08, type: 2}
+  staggerTargets: []
 --- !u!1 &652443676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,6 +2323,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9224a94bf97164e97829c3bacc8578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueTextEffects
+--- !u!1 &725722671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 725722673}
+  - component: {fileID: 725722672}
+  m_Layer: 0
+  m_Name: UIAnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &725722672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725722671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c76682a0d1f3cc4fb6f855303f26971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIAnimationManager
+  defaultFadeIn: {fileID: 0}
+  defaultFadeOut: {fileID: 0}
+  defaultSlideIn: {fileID: 0}
+  defaultSlideOut: {fileID: 0}
+  defaultScaleIn: {fileID: 0}
+  defaultScaleOut: {fileID: 0}
+--- !u!4 &725722673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725722671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748448807
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,7 +5635,7 @@ Animator:
   m_GameObject: {fileID: 1591805941}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a9d343e7f1e1e14bbd2da85713a737f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5645,7 +5799,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 4
-  jumpForce: 10
+  runMultiplier: 1.8
+  crouchMultiplier: 0.5
+  mobileRunThreshold: 0.8
+  normalHeight: 1
+  crouchHeight: 0.5
+  normalOffset: {x: 0, y: 0}
+  crouchOffset: {x: 0, y: -0.25}
   groundCheck: {fileID: 2058021955}
   groundLayer:
     serializedVersion: 2
@@ -6093,6 +6253,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 70535de6-899a-42b6-a613-430defde2280
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1670885030}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 09523abf-4075-4a9d-8d38-25f022523e3a
+    m_ActionName: 'Gameplay/Run[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1670885030}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eb470237-996c-4196-9ee6-0ebb34495ff9
+    m_ActionName: 'Gameplay/Crouch[/Keyboard/leftCtrl]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -8265,6 +8457,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 301241894}
   - {fileID: 545027159}
+  - {fileID: 725722673}
   - {fileID: 1670885031}
   - {fileID: 839941376}
   - {fileID: 1306875782}
