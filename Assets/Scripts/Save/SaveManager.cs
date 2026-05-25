@@ -12,17 +12,31 @@ public static class SaveManager
 {
     #region Parameters
     private static SaveData data;
-    private static string savePath = Application.persistentDataPath + "/save.dat";
+    private static string savePath = Application.persistentDataPath + "/save";
+    public static string saveSlotConst= "SaveSlot";
     #endregion
 
 
     #region Class Methods
+    public static bool SaveExist(string _slotName)
+    {
+
+        string newPath = savePath + _slotName+".dat";
+       
+        return File.Exists(newPath);
+
+    }
     private static void Load()
     {
-        if (File.Exists(savePath))
+        string newPath = savePath;
+        if (PlayerPrefs.HasKey(saveSlotConst))
+        {
+            newPath = savePath+ PlayerPrefs.GetString(saveSlotConst)+".dat";
+        }
+        if (File.Exists(newPath))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(savePath, FileMode.Open);
+            FileStream file = File.Open(newPath, FileMode.Open);
             data = (SaveData)bf.Deserialize(file);
             file.Close();
         }
@@ -33,16 +47,29 @@ public static class SaveManager
     }
     private static void Save()
     {
+        string newPath = savePath; ;
+        if (PlayerPrefs.HasKey(saveSlotConst))
+        {
+            newPath = savePath + PlayerPrefs.GetString(saveSlotConst) + ".dat";
+        }
+
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(savePath);
+        FileStream file = File.Create(newPath);
         bf.Serialize(file, data);
         file.Close();
     }
     public static void DeleteSaved()
     {
-        if (File.Exists(savePath))
+        string newPath = savePath;
+        if (PlayerPrefs.HasKey(saveSlotConst))
         {
-            File.Delete(savePath);
+            newPath = savePath + PlayerPrefs.GetString(saveSlotConst) + ".dat";
+        }
+
+
+        if (File.Exists(newPath))
+        {
+            File.Delete(newPath);
         }
         data = null;
     }
@@ -68,13 +95,29 @@ public static class SaveManager
     }
     #endregion
 
+    public static void SaveSceneName(string _sceneName)
+    {
+        if (data == null) Load();
+        data.sceneName = _sceneName;
+        Save();
+    }   
+    public static string GetSceneName()
+    {
+        if (data == null) Load();
+        return data.sceneName;
+    }
 
 }
 /*
  * Clase con los datos que se guardaran del juego
 */
+[Serializable]
 public class SaveData
 {
     public List<string> eventsKeys = new List<string>();
+    public string sceneName;
+    public int playerPositionX, playerPositionY, playerPositionZ;
+
+
 
 }

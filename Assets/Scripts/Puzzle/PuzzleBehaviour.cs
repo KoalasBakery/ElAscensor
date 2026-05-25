@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+[Serializable]
 public abstract class PuzzleBehaviour
 {
     protected event Action onPuzzleCompleted;
@@ -24,14 +24,11 @@ public abstract class PuzzleBehaviour
     { 
         onPuzzleCompleted?.Invoke();
     }
-    public virtual void Init(PuzzleData _newPuzzleData)
+    public virtual void Init(PuzzleData _newPuzzleData, PuzzleManager _manager)
     {
        // data = _newPuzzleData;
     }
-    public virtual void ShowPuzzleInEditor(PuzzleData _newPuzzleData)
-    { 
-        //data = _newPuzzleData;
-    }
+  
     public virtual void Start()
     { 
         soundReproductor+= AudioManager.instance.Play;
@@ -40,7 +37,7 @@ public abstract class PuzzleBehaviour
     public virtual void End()
     {
     }
-    public virtual void Input(string input)
+    public virtual void OnClick(string input)
     {
         onPuzzleInputReceived?.Invoke(input);
     }   
