@@ -11,7 +11,15 @@ public class SceneLoader : MonoBehaviour
     IEnumerator LoadLevelScene()
     {
         yield return Helpers.GetWait(timeToLoadScene);
-        Helpers.LoadScene(SaveManager.GetSceneName());
+        string sceneName = SaveManager.GetSceneName();
+        if (sceneName != "" || sceneName != null)
+        {
+            Helpers.LoadScene(SaveManager.GetSceneName());
+        }
+        else
+        { 
+            Debug.LogWarning("No scene name saved, loading default scene");
+        }
 
     }
     [ContextMenu("DeleteSave")]

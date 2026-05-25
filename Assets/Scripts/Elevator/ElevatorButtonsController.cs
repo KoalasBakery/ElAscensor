@@ -29,6 +29,7 @@ public class ElevatorButtonsController : MonoBehaviour
         for (int i = lastIndex + 1; i < startScene.Length; i++)
             fString += startScene[i];
         floorText.text = fString;
+        gameObject.SetActive(false);
 
     }
     public void LoadScene(string _sceneName)
@@ -44,8 +45,6 @@ public class ElevatorButtonsController : MonoBehaviour
         SaveManager.SaveSceneName(_sceneName);
         Helpers.LoadScene(_sceneName);
         FadeController.Instance.FadeOut();
-
-
     }
 
     public void OnTouchButton(string _value)

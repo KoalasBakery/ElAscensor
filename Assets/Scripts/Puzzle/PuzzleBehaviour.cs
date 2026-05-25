@@ -37,7 +37,7 @@ public abstract class PuzzleBehaviour
     public virtual void End()
     {
     }
-    public virtual void Input(string input)
+    public virtual void OnClick(string input)
     {
         onPuzzleInputReceived?.Invoke(input);
     }   

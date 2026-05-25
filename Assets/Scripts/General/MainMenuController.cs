@@ -32,8 +32,6 @@ public class MainMenuController : MonoBehaviour
                 slot.slotText.text = "New Game";
                 slot.slotButton.onClick.AddListener(() => SaveManager.SaveSceneName(firstLevelName));
             }
-
-            
         }
     }
     public void StartGame(string _slotName)

@@ -34,15 +34,15 @@ public class CodePuzzle : PuzzleBehaviour
                 continue;
             }
 
-            button.onClick.AddListener(() => Input(button.name));
+            button.onClick.AddListener(() => OnClick(button.name));
         }
     }
-    public override void Input(string _input)
+    public override void OnClick(string _input)
     {
         if (input.Length >= code.Length)
             return;
 
-        base.Input(_input);
+        base.OnClick(_input);
         input += _input;
         codeText.text = input;
 

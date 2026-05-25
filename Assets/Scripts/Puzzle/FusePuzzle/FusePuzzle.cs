@@ -16,7 +16,7 @@ public class FusePuzzle : PuzzleBehaviour
         base.Init(_newPuzzleData, _manager);
 
         currentFuse = null;
-        EraseFuses();
+        ResetPuzzle();
 
         FusePuzzleData fuseData = (FusePuzzleData)_newPuzzleData;
 
@@ -54,12 +54,18 @@ public class FusePuzzle : PuzzleBehaviour
                 fuseData.fuses[i].fuseEnd.x * fuseData.spacing.x + fuseData.offset.x,
                 fuseData.fuses[i].fuseEnd.y * fuseData.spacing.y + fuseData.offset.y, 0);
 
+            _tempFuse.fuseStart.localScale = new Vector3(
+                fuseData.fuses[i].scale.x * fuseData.scale.x,
+                fuseData.fuses[i].scale.y * fuseData.scale.y, 1);
+            _tempFuse.fuseEnd.localScale = new Vector3(
+                fuseData.fuses[i].scale.x * fuseData.scale.x,
+                fuseData.fuses[i].scale.y * fuseData.scale.y, 1);
             fuses.Add(_tempFuse);
 
         }
     }
   
-    public void EraseFuses()
+    public void ResetPuzzle()
     {
         foreach (var item in fuses)
         {
