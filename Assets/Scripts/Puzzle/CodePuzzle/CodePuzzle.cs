@@ -8,20 +8,19 @@ public class CodePuzzle : PuzzleBehaviour
     TMP_Text codeText;
     Button[] buttons;
   
-    public override void Init(PuzzleData _newPuzzleData)
+    public override void Init(PuzzleData _newPuzzleData, PuzzleManager _manager)
     {
-        base.Init(_newPuzzleData);
+        base.Init(_newPuzzleData, _manager);
 
         CodePuzzleData codeData = (CodePuzzleData)_newPuzzleData;
 
         code = codeData.code;
         input = "";
-        PuzzleManager.Instance.codePuzzleHolder.SetActive(true);
+        _manager.codePuzzleHolder.SetActive(true);
 
-        codeText = PuzzleManager.Instance.codePuzzleHolder.transform.Find("CodeText").GetComponent<TMP_Text>();
-        buttons = PuzzleManager.Instance.codePuzzleHolder.GetComponentsInChildren<Button>();
+        codeText = _manager.codePuzzleHolder.transform.Find("CodeText").GetComponent<TMP_Text>();
+        buttons = _manager.codePuzzleHolder.GetComponentsInChildren<Button>();
         codeText.text = input;
-        Debug.Log(buttons.Length);
         foreach (Button button in buttons)
         {
             if (button.name == "EnterButton")
@@ -35,15 +34,15 @@ public class CodePuzzle : PuzzleBehaviour
                 continue;
             }
 
-            button.onClick.AddListener(() => Input(button.name));
+            button.onClick.AddListener(() => OnClick(button.name));
         }
     }
-    public override void Input(string _input)
+    public override void OnClick(string _input)
     {
         if (input.Length >= code.Length)
             return;
 
-        base.Input(_input);
+        base.OnClick(_input);
         input += _input;
         codeText.text = input;
 

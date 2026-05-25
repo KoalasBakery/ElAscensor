@@ -1,11 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //SCRIPT de funciones generales
 
 public static class Helpers
 {
-  
+    public static void LoadScene(string _sceneName)
+    { 
+        SceneManager.LoadScene(_sceneName);
+    }
+
+
+
     static WaitForEndOfFrame waitForEndFrame;
     public static WaitForEndOfFrame GetWaitForEndOfFrame()
     {

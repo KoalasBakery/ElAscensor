@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
     public bool activePuzzle;
     public PuzzleBehaviour currentPuzzle;
     [field: SerializeField] public GameObject codePuzzleHolder { get; private set; }
+    [field: SerializeField] public GameObject fusePuzzleHolder { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -18,6 +17,9 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(fusePuzzleHolder);
+
     }
    
     public GameObject InstantiatePrefab(GameObject _prefab)
@@ -34,15 +36,11 @@ public class PuzzleManager : MonoBehaviour
        //currentPuzzle = FindAnyObjectByType<PuzzleBehaviour >();
         activePuzzle = true;
     }
-    [ContextMenu("Puzzle in editor")]
-    public void ShowPuzzle()
-    {
-        puzzle.behaviour.ShowPuzzleInEditor(puzzle);
-    }
+  
     [ContextMenu("Puzzle in Game")]
     public void StartPuzzle()
     {
-        puzzle.behaviour.Init(puzzle);
+        puzzle.behaviour.Init(puzzle, Instance);
 
 
         // transform.position = Vector3.zero;

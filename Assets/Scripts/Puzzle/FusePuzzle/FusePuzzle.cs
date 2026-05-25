@@ -1,146 +1,78 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[Serializable]
-public class Fuse
-{
-    public Transform fuseStart, fuseEnd;
-    public LineRenderer lineRend;
-}
 
 public class FusePuzzle : PuzzleBehaviour
 {
     
     List<Fuse> fuses= new List<Fuse>();
     Fuse currentFuse;
-    List<GameObject> puzzleItems= new List<GameObject>();
     Vector2 inputWorldPosition;
     int currentIndex;
 
-    public override void Init(PuzzleData _newPuzzleData)
+    public override void Init(PuzzleData _newPuzzleData, PuzzleManager _manager)
     {
-        base.Init(_newPuzzleData);
+        base.Init(_newPuzzleData, _manager);
 
         currentFuse = null;
-        EraseFuses();
+        ResetPuzzle();
 
         FusePuzzleData fuseData = (FusePuzzleData)_newPuzzleData;
 
+        Fuse[] allFuses= _manager.fusePuzzleHolder.GetComponentsInChildren<Fuse>();
+
         for (int i = 0; i < fuseData.fuses.Length; i++)
         {
-            GameObject startPos = new GameObject();
-            GameObject endPos = new GameObject();
-            GameObject lineRend = PuzzleManager.Instance.InstantiatePrefab(fuseData.lineRendPrefab);
+            if (i >= allFuses.Length)
+                return;
 
-            Transform parentTransform = PuzzleManager.Instance.transform;
+            Fuse _tempFuse = allFuses[i];
 
-            startPos.transform.parent = parentTransform;
-            endPos.transform.parent = parentTransform;
-            lineRend.transform.parent = parentTransform;
-
-
-            startPos.name = $"StartPos_{i}";
-            endPos.name = $"EndPos_{i}";
-            lineRend.name = $"LineRend_{i}";
-
-            puzzleItems.Add(startPos);
-            puzzleItems.Add(endPos);
-            puzzleItems.Add(lineRend);
-
+            _tempFuse.ActiveFuse();
+            
             Color spriColor = new Color(
-                fuseData.fuses[i].color.Evaluate(0).r,
-                fuseData.fuses[i].color.Evaluate(0).g,
-                fuseData.fuses[i].color.Evaluate(0).b,
-                1);
+            fuseData.fuses[i].color.Evaluate(0).r,
+            fuseData.fuses[i].color.Evaluate(0).g,
+            fuseData.fuses[i].color.Evaluate(0).b,
+            1);
 
-            LineRenderer lR = lineRend.GetComponent<LineRenderer>();
+            _tempFuse.fuseStartSprite.sprite = fuseData.fuses[i].sprite;
+            _tempFuse.fuseStartSprite.color = spriColor;
 
-            lR.colorGradient = fuseData.fuses[i].color;
-            lR.SetPosition(0, Vector3.zero);
-            lR.SetPosition(1, Vector3.zero);
+            _tempFuse.fuseEndSprite.sprite = fuseData.fuses[i].sprite;
+            _tempFuse.fuseEndSprite.color = spriColor;
 
+            _tempFuse.lineRend.colorGradient = fuseData.fuses[i].color;
+            _tempFuse.lineRend.SetPosition(0, Vector3.zero);
+            _tempFuse.lineRend.SetPosition(1, Vector3.zero);
 
-            SpriteRenderer sR = startPos.AddComponent<SpriteRenderer>();
-            sR.sprite = fuseData.fuseSprite;
-            sR.color = spriColor;
-
-            sR = endPos.AddComponent<SpriteRenderer>();
-            sR.sprite = fuseData.fuseSprite;
-            fuseData.fuses[i].color.Evaluate(0);
-
-            sR.color = spriColor;
-
-            startPos.transform.position = new Vector3(
+            _tempFuse.fuseStart.position = new Vector3(
                 fuseData.fuses[i].fuseStart.x * fuseData.spacing.x + fuseData.offset.x,
                 fuseData.fuses[i].fuseStart.y * fuseData.spacing.y + fuseData.offset.y, 0);
-            endPos.transform.position = new Vector3(
+            _tempFuse.fuseEnd.position = new Vector3(
                 fuseData.fuses[i].fuseEnd.x * fuseData.spacing.x + fuseData.offset.x,
                 fuseData.fuses[i].fuseEnd.y * fuseData.spacing.y + fuseData.offset.y, 0);
 
-            Fuse newFuse = new Fuse()
-            {
-                fuseStart = startPos.transform,
-                fuseEnd = endPos.transform,
-                lineRend = lR
-            };
-            fuses.Add(newFuse);
-        }
-    }
-    public override void ShowPuzzleInEditor(PuzzleData _newPuzzleData)
-    {
-        base.ShowPuzzleInEditor(_newPuzzleData);
-        EraseFuses();
-
-        FusePuzzleData fuseData = (FusePuzzleData)_newPuzzleData;
-        for (int i = 0; i < fuseData.fuses.Length; i++)
-        {
-            GameObject startPos = new GameObject();
-            GameObject endPos = new GameObject();
-
-
-            startPos.name = $"StartPos_{i}";
-            endPos.name = $"EndPos_{i}";
-
-            puzzleItems.Add(startPos);
-            puzzleItems.Add(endPos);
-
-            Color spriColor = new Color(
-                fuseData.fuses[i].color.Evaluate(0).r,
-                fuseData.fuses[i].color.Evaluate(0).g,
-                fuseData.fuses[i].color.Evaluate(0).b,
-                1);
-
-
-            SpriteRenderer sR = startPos.AddComponent<SpriteRenderer>();
-            sR.sprite = fuseData.fuseSprite;
-            sR.color = spriColor;
-
-            sR = endPos.AddComponent<SpriteRenderer>();
-            sR.sprite = fuseData.fuseSprite;
-            fuseData.fuses[i].color.Evaluate(0);
-
-            sR.color = spriColor;
-
-            startPos.transform.position = new Vector3(
-                fuseData.fuses[i].fuseStart.x * fuseData.spacing.x + fuseData.offset.x,
-                fuseData.fuses[i].fuseStart.y * fuseData.spacing.y + fuseData.offset.y, 0);
-            endPos.transform.position = new Vector3(
-                fuseData.fuses[i].fuseEnd.x * fuseData.spacing.x + fuseData.offset.x,
-                fuseData.fuses[i].fuseEnd.y * fuseData.spacing.y + fuseData.offset.y, 0);
+            _tempFuse.fuseStart.localScale = new Vector3(
+                fuseData.fuses[i].scale.x * fuseData.scale.x,
+                fuseData.fuses[i].scale.y * fuseData.scale.y, 1);
+            _tempFuse.fuseEnd.localScale = new Vector3(
+                fuseData.fuses[i].scale.x * fuseData.scale.x,
+                fuseData.fuses[i].scale.y * fuseData.scale.y, 1);
+            fuses.Add(_tempFuse);
 
         }
     }
   
-    public void EraseFuses()
+    public void ResetPuzzle()
     {
-        foreach (var item in puzzleItems)
+        foreach (var item in fuses)
         {
-            if (item!=null)
-                PuzzleManager.Instance.DestroyGameObject(item);
+            if (item == null) continue;
+
+            item.DisableFuse();
         }
-        puzzleItems.Clear();
         fuses.Clear();
     }
     
@@ -162,27 +94,22 @@ public class FusePuzzle : PuzzleBehaviour
         for (int i = 0; i < fuses.Count; i++)
         {
             Fuse fuse = fuses[i];
-
             if (Vector2.Distance(inputWorldPosition, fuse.fuseStart.position) < 0.5f)
             {
-                currentFuse = new Fuse()
-                {
-                    fuseStart = fuse.fuseStart,
-                    fuseEnd = fuse.fuseEnd,
-                    lineRend = fuse.lineRend,
-                };
+                currentFuse = fuse;
+
                 currentIndex = i;
                 return;
             }
 
             if (Vector2.Distance(inputWorldPosition, fuse.fuseEnd.position) < 0.5f)
             {
-                currentFuse = new Fuse()
-                {
-                    fuseStart = fuse.fuseEnd,
-                    fuseEnd = fuse.fuseStart,
-                    lineRend = fuse.lineRend,
-                };
+                Transform _tempTransform;
+                currentFuse = fuse;
+                _tempTransform = currentFuse.fuseStart;
+                currentFuse.fuseStart = currentFuse.fuseEnd;
+                currentFuse.fuseEnd = _tempTransform;
+              
                 currentIndex = i;
                 return;
             }
