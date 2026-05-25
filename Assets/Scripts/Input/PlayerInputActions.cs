@@ -665,6 +665,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ReleaseInteractPosition"",
+                    ""type"": ""Button"",
+                    ""id"": ""5864011a-b607-4a10-9788-5026fae8908e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""InteractPosition"",
                     ""type"": ""Value"",
                     ""id"": ""3f1c1aa1-974d-4602-94b7-870b7bda6e74"",
@@ -890,6 +899,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5855a22-722d-4412-b7c4-a407dfd50793"",
+                    ""path"": ""<Pointer>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseInteractPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1132c940-d12a-43f7-9f88-80cacd49c266"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseInteractPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -915,6 +946,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Inventory = m_Gameplay.FindAction("Inventory", throwIfNotFound: true);
         m_Gameplay_Journal = m_Gameplay.FindAction("Journal", throwIfNotFound: true);
+        m_Gameplay_ReleaseInteractPosition = m_Gameplay.FindAction("ReleaseInteractPosition", throwIfNotFound: true);
         m_Gameplay_InteractPosition = m_Gameplay.FindAction("InteractPosition", throwIfNotFound: true);
         m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
@@ -1199,6 +1231,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Inventory;
     private readonly InputAction m_Gameplay_Journal;
+    private readonly InputAction m_Gameplay_ReleaseInteractPosition;
     private readonly InputAction m_Gameplay_InteractPosition;
     private readonly InputAction m_Gameplay_Run;
     private readonly InputAction m_Gameplay_Crouch;
@@ -1233,6 +1266,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Journal".
         /// </summary>
         public InputAction @Journal => m_Wrapper.m_Gameplay_Journal;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ReleaseInteractPosition".
+        /// </summary>
+        public InputAction @ReleaseInteractPosition => m_Wrapper.m_Gameplay_ReleaseInteractPosition;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/InteractPosition".
         /// </summary>
@@ -1286,6 +1323,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Journal.started += instance.OnJournal;
             @Journal.performed += instance.OnJournal;
             @Journal.canceled += instance.OnJournal;
+            @ReleaseInteractPosition.started += instance.OnReleaseInteractPosition;
+            @ReleaseInteractPosition.performed += instance.OnReleaseInteractPosition;
+            @ReleaseInteractPosition.canceled += instance.OnReleaseInteractPosition;
             @InteractPosition.started += instance.OnInteractPosition;
             @InteractPosition.performed += instance.OnInteractPosition;
             @InteractPosition.canceled += instance.OnInteractPosition;
@@ -1321,6 +1361,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Journal.started -= instance.OnJournal;
             @Journal.performed -= instance.OnJournal;
             @Journal.canceled -= instance.OnJournal;
+            @ReleaseInteractPosition.started -= instance.OnReleaseInteractPosition;
+            @ReleaseInteractPosition.performed -= instance.OnReleaseInteractPosition;
+            @ReleaseInteractPosition.canceled -= instance.OnReleaseInteractPosition;
             @InteractPosition.started -= instance.OnInteractPosition;
             @InteractPosition.performed -= instance.OnInteractPosition;
             @InteractPosition.canceled -= instance.OnInteractPosition;
@@ -1483,6 +1526,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJournal(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ReleaseInteractPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReleaseInteractPosition(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "InteractPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05730f960e2dd0f409e86fdce3a20450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
-  actions: {fileID: 0}
+  playerInput: {fileID: 0}
 --- !u!4 &1766206107
 Transform:
   m_ObjectHideFlags: 0
@@ -339,19 +339,7 @@ MonoBehaviour:
     m_ActionId: 755013b4-d70d-47b0-8710-49cba87a242c
     m_ActionName: 'Gameplay/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1766206106}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnInteractPosition
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: a4d5e0e0-de8b-4391-b68f-56ef9ae52b9f
     m_ActionName: 'Gameplay/Interact[/Mouse/leftButton]'
   - m_PersistentCalls:
@@ -428,6 +416,31 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 70535de6-899a-42b6-a613-430defde2280
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 09523abf-4075-4a9d-8d38-25f022523e3a
+    m_ActionName: 'Gameplay/Run[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eb470237-996c-4196-9ee6-0ebb34495ff9
+    m_ActionName: 'Gameplay/Crouch[/Keyboard/leftCtrl]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1766206106}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnInteractPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5864011a-b607-4a10-9788-5026fae8908e
+    m_ActionName: 'Gameplay/ReleaseInteractPosition[/Mouse/press,/Pen/press,/Device
+      Simulator Touchscreen/press]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

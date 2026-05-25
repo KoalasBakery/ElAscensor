@@ -579,6 +579,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ReleaseInteractPosition",
+                    "type": "Button",
+                    "id": "5864011a-b607-4a10-9788-5026fae8908e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "InteractPosition",
                     "type": "Value",
                     "id": "3f1c1aa1-974d-4602-94b7-870b7bda6e74",
@@ -802,6 +811,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5855a22-722d-4412-b7c4-a407dfd50793",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReleaseInteractPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1132c940-d12a-43f7-9f88-80cacd49c266",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReleaseInteractPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
